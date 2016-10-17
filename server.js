@@ -18,13 +18,18 @@ mongoose.connect(configDB.url);
 const passport = require("passport");
 require("./config/passport")(passport);
 
+app.set("port", process.env.PORT || 3000);
+app.set("views", __dirname + "/public/views");
+app.set("view engine", "ejs");
+
+app.use(express.static(__dirname + "/public"));
+
 const mainRouter = require("./routes/main")(passport);
 const profileRouter = require("./routes/profile")(passport);
 const galleryRouter = require("./routes/gallery")(passport);
 
 configServer();
 configRoutes();
-
 
 app.listen(app.get("port"), () => {
     console.log("Application listen on port " + app.get("port"));
@@ -38,15 +43,10 @@ function configServer() {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());
-    app.use(express.static("public"));
-
-    app.set("port", process.env.PORT || 3000);
-    app.set("views", __dirname + "/public/views");
-    app.set("view engine", "ejs");
 }
 
 function configRoutes() {
+    app.use("/gallery", galleryRouter);
     app.use("/", mainRouter);
     app.use("/profile", profileRouter);
-    app.use("/gallery", galleryRouter);
 }

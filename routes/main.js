@@ -4,26 +4,15 @@
 
 const express = require("express");
 const api = express.Router();
+var routesUtils = require("./routesUtils");
 
 module.exports = (passport) => {
     api.get("/", (req, res) => {
-        if (req.user) {
-            res.render("index.ejs", {
-                user: req.user
-            });
-        } else {
-            res.redirect("/login");
-        }
+        routesUtils.isUserLoggedIn(req, res, "index.ejs", "/login");
     });
 
     api.get("/login", (req, res) => {
-        if (!req.user) {
-            res.render("login.ejs", {
-                message: req.flash("loginMessage")
-            });
-        } else {
-            res.redirect("/");
-        }
+        routesUtils.isUserIsNotLoggedIn(req, res, "login.ejs", "/", "loginMessage");
     });
 
     api.post("/login", passport.authenticate("local-login", {

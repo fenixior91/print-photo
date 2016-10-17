@@ -86,28 +86,27 @@
                 </div>
 
                 <div class="right_col" role="main">
-                    <div class="row title_count">
+                    <div class="">
                         <div class="page-title">
                             <div class="title_left">
-                                <h3>Main Page</h3>
+                                <h3>Send Photo</h3>
                             </div>
                         </div>
 
                         <div class="clearfix"></div>
 
                         <div class="row">
-                            <% for(var i = 0; i < 9; i++) { %>
-                                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">
-                                            <h2>Title<%= (i + 1) %></h2>
-                                        </div>
-                                        <div class="panel-body">
-                                            BODY
-                                        </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="x_panel">
+                                    <div class="x_content">
+                                        <form action="form_upload.html" class="dropzone"></form>
+                                        <br />
+                                        <br />
+                                        <br />
+                                        <br />
                                     </div>
                                 </div>
-                            <% } %>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -120,6 +119,5 @@
         <script src="/js/vendor/nprogress/nprogress.js"></script>
         <script src="/js/vendor/dropzone/dropzone.min.js"></script>
         <script src="/js/vendor/custom/custom.js"></script>
-        <script src="/js/scripts/ui/photo_ui.js"></script>
     </body>
 </html>

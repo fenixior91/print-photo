@@ -4,9 +4,11 @@
 
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt-nodejs");
+const Schema = mongoose.Schema;
 
-var userSchema = mongoose.Schema({
+const UserSchema = Schema({
     local : {
+        _id: Number,
         email: String,
         password: String,
         firstName: String,
@@ -14,16 +16,22 @@ var userSchema = mongoose.Schema({
         city: String,
         address: String,
         postalCode : String,
-        role: Number
-    }
+        role: Number,
+        photos: [{
+            type: Schema.ObjectId,
+            ref: "Photo"
+        }]
+    },
 });
 
-userSchema.methods.generateHash = function(password) {
+UserSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
 
-userSchema.methods.validPassword = function(password) {
+UserSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', UserSchema);
+
+module.exports = User;
