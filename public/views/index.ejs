@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8">
+        <title>Index</title>
+        <link rel="stylesheet" href="css/vendor/bootstrap/bootstrap.css">
+        <link rel="stylesheet" href="css/vendor/font-awesome/font-awesome.css">
+        <style>
+            body { padding-top: 80px; }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="jumbotron text-center">
+                <h1>
+                    <span class="fa fa-lock"> Node authentication</span>
+                </h1>
+
+                <% if (!user) { %>
+                    <p>Login or register with:</p>
+                    <a href="/login" class="btn btn-success"><span class="fa fa-user"></span> Local login</a>
+                    <a href="/signup" class="btn btn-primary"><span class="fa fa-user"></span> Local signup</a>
+                <% } else { %>
+                    <p>Welcome <%= user.local.email %></p>
+                    <a href="/profile" class="btn btn-default"><span class="fa fa-user"></span> Profile</a>
+                    <a href="/logout" class="btn btn-danger"><span class="fa fa-sign-in"></span> Logout</a>
+                <% } %>
+
+            </div>
+        </div>
+    </body>
+</html>
