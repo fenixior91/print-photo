@@ -7,9 +7,13 @@ const api = express.Router();
 
 module.exports = (passport) => {
     api.get("/", (req, res) => {
-        res.render("index.ejs", {
-            user: req.user
-        });
+        if (req.user) {
+            res.render("index.ejs", {
+                user: req.user
+            });
+        } else {
+            res.redirect("/login");
+        }
     });
 
     api.get("/login", (req, res) => {
@@ -18,12 +22,12 @@ module.exports = (passport) => {
                 message: req.flash("loginMessage")
             });
         } else {
-            res.redirect("/profile");
+            res.redirect("/");
         }
     });
 
     api.post("/login", passport.authenticate("local-login", {
-        successRedirect: "/profile",
+        successRedirect: "/",
         failureRedirect: "/login",
         failureFlash: true
     }));
@@ -35,14 +39,14 @@ module.exports = (passport) => {
     });
 
     api.post("/signup", passport.authenticate("local-signup", {
-        successRedirect: "/profile",
+        successRedirect: "/",
         failureRedirect: "/signup",
         failureFlash: true
     }));
 
     api.get("/logout", (req, res) => {
         req.logout();
-        res.redirect("/");
+        res.redirect("/login");
     });
 
     return api;
