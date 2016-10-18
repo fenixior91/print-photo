@@ -11,6 +11,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const configDB = require("./config/database");
+const busboy = require("connect-busboy")
 
 const mongoose = require("mongoose");
 mongoose.connect(configDB.url);
@@ -43,6 +44,7 @@ function configServer() {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());
+    app.use(busboy());
 }
 
 function configRoutes() {

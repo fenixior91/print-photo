@@ -3,6 +3,7 @@
  */
 
 const express = require("express");
+const fs = require("fs");
 const api = express.Router();
 const PhotoService = require("../services/photo");
 
@@ -38,6 +39,27 @@ module.exports = (passport) => {
         }
     });
 
+    api.post("/new", function(req, res) {
+        let user = req.user;
+
+        if (user) {
+            PhotoService.uploadPhoto(req, res, user)
+                .then(PhotoService.savePhoto)
+                .then(
+                    function(resolve) {
+                        res.status(200).json({status: "ok", message: "file uploaded"});
+                    }
+                )
+                .catch(function(error) {
+                    res.json({
+                        error: error
+                    });
+                });
+        } else {
+            res.redirect("/login");
+        }
+    });
+
     api.get("/edit", (req, res) => {
         let user = req.user
 
@@ -52,26 +74,10 @@ module.exports = (passport) => {
 
 
 
-    // api.post("/photo/add", function(req, res) {
-    //     console.log("", req.user);
-    //     User.findOne({_id: req.user._id}, function(err, user) {
-    //         var photo = new Photo({
-    //             _creator: req.user._id,
-    //             name: req.body.name,
-    //             description: req.body.description,
-    //             uri: req.body.uri
-    //         });
-    //
-    //         user.local.photos.push(photo);
-    //
-    //         photo.save(function(err) {
-    //             res.json({
-    //                 user: user,
-    //                 photo, photo
-    //             });
-    //         });
-    //     });
-    // });
+    api.post("/photo/add", function(req, res) {
+        console.log("", req.user);
+
+    });
 
     return api;
 };
