@@ -26,7 +26,7 @@ app.use(express.static(__dirname + "/public"));
 
 const mainRouter = require("./routes/main")(passport);
 const profileRouter = require("./routes/profile")(passport);
-const galleryRouter = require("./routes/gallery")(passport);
+const photosRouter = require("./routes/photos")(passport);
 
 configServer();
 configRoutes();
@@ -46,7 +46,7 @@ function configServer() {
 }
 
 function configRoutes() {
-    app.use("/gallery", galleryRouter);
     app.use("/", mainRouter);
     app.use("/profile", profileRouter);
+    app.use("/photos", photosRouter);
 }

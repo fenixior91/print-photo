@@ -35,6 +35,7 @@ module.exports = (passport) => {
                         newUser.local.address = req.body.address;
                         newUser.local.postalCode = req.body.postalCode;
                         newUser.local.role = 1;
+                        newUser.local.avatar = "/images/common/user.png";
                         newUser.save(function(err) {
                             if (err)
                                 throw err;

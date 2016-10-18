@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="pl">
     <head>
-        <% include partials/head.ejs %>
+        <% include ../partials/head.ejs %>
         <link rel="stylesheet" href="/css/vendor/blueimp-gallery/blueimp-gallery.css">
         <link rel="stylesheet" href="/css/vendor/blueimp-gallery/blueimp-gallery-indicator.css">
 
-        <title>Photos</title>
+        <title>Photos | Show</title>
     </head>
 
     <body class="nav-md">
         <div class="container body">
             <div class="main_container">
-                <% include partials/left-menu.ejs %>
-                <% include partials/top-menu.ejs %>
-
+                <% include ../partials/left-menu.ejs%>
+                <% include ../partials/top-menu.ejs %>
 
                 <div class="right_col" role="main">
                     <div class="">
                         <div class="page-title">
                             <div class="title_left">
-                                <h3>Photos</h3>
+                                <h3>Photos | Show</h3>
                             </div>
                         </div>
 
@@ -27,29 +26,29 @@
                         <div id="links">
 
                             <% for (var i = 0; i < photos.length; i++) { %>
-                                <a href="<%= photos[i].src %>" title="<%= photos[i].title %>" alt="<%= photos[i].alt %>">
-                                    <img src="<%= photos[i].src %>" alt="<%= photos[i].title %>" alt="<%= photos[i].title %>">
-                                </a>
+                            <a href="<%= photos[i].src %>" title="<%= photos[i].title %>" alt="<%= photos[i].alt %>">
+                                <img src="<%= photos[i].src %>" alt="<%= photos[i].title %>" alt="<%= photos[i].title %>">
+                            </a>
                             <% } %>
 
                         </div>
 
-                            <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
-                                <div class="slides"></div>
-                                <h3 class="title"></h3>
-                                <a class="prev">‹</a>
-                                <a class="next">›</a>
-                                <a class="close">×</a>
-                                <a class="play-pause"></a>
-                                <ol class="indicator"></ol>
-                            </div>
+                        <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+                            <div class="slides"></div>
+                            <h3 class="title"></h3>
+                            <a class="prev">‹</a>
+                            <a class="next">›</a>
+                            <a class="close">×</a>
+                            <a class="play-pause"></a>
+                            <ol class="indicator"></ol>
                         </div>
                     </div>
                 </div>
             </div>
+            </div>
         </div>
 
-        <% include partials/scripts.ejs %>
+        <% include ../partials/scripts.ejs %>
         <script src="/js/vendor/blueimp-gallery/blueimp-gallery.js"></script>
         <script src="/js/vendor/blueimp-gallery/blueimp-gallery-fullscreen.js"></script>
         <script src="/js/vendor/blueimp-gallery/blueimp-gallery-indicator.js"></script>

@@ -17,6 +17,7 @@ const UserSchema = Schema({
         address: String,
         postalCode : String,
         role: Number,
+        avatar: String,
         photos: [{
             type: Schema.ObjectId,
             ref: "Photo"

@@ -3,23 +3,14 @@
  */
 
 $(document).ready(function () {
-    $("#add-photo").click(function(e) {
-        e.preventDefault();
+    $.ajax({
+        type: "get",
+        url: "/gallery/photos/images",
+        success: (function(result) {
 
-        var data = {
-            name: "photo",
-            description: "description",
-            uri: "http://www.google.com"
-        };
-
-        $.ajax({
-            type: "post",
-            url: "/gallery/photo/add",
-            data: data,
-            success: function(result) {
-                console.log(result);
-            },
-            dataType: "json"
+        }),
+        error: (function(error) {
+            console.log(error);
         })
     });
 });
