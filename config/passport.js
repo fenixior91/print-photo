@@ -1,5 +1,9 @@
 const LocalStrategy = require('passport-local').Strategy;
+const fs = require("fs");
+const path = require("path");
+
 const User = require('../models/user');
+const UserService = require("../services/user");
 
 module.exports = (passport) => {
     passport.serializeUser((user, done) => {
@@ -27,7 +31,7 @@ module.exports = (passport) => {
                         return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
                     } else {
                         var newUser = new User();
-                        newUser.local.email    = email;
+                        newUser.local.email  = email;
                         newUser.local.password = newUser.generateHash(password);
                         newUser.local.firstName = req.body.firstName;
                         newUser.local.lastName = req.body.lastName;
@@ -36,10 +40,22 @@ module.exports = (passport) => {
                         newUser.local.postalCode = req.body.postalCode;
                         newUser.local.role = 1;
                         newUser.local.avatar = "/images/common/user.png";
-                        newUser.save(function(err) {
-                            if (err)
-                                throw err;
-                            return done(null, newUser);
+
+                        let atSign = email.replace(/\./g, "_").replace(/@/, "_at_");
+                        let date = new Date().getTime();
+
+                        newUser.local.uploads.uploadsSystemPath = process.env.PWD + "/public/uploads/" + atSign + "_" + date;
+                        newUser.local.uploads.uploadsClientPath =  "/uploads/" + atSign + "_" + date;
+
+                        newUser.save((err, newUser) =>
+                        {
+                            if (!err) {
+                                let dir = newUser.local.uploads.uploadsSystemPath;
+                                if (!fs.existsSync(dir))
+                                    fs.mkdirSync(dir);
+
+                                return done(null, newUser);
+                            }
                         });
                     }
                 });

@@ -18,6 +18,10 @@ const UserSchema = Schema({
         postalCode : String,
         role: Number,
         avatar: String,
+        uploads: {
+            uploadsSystemPath: String,
+            uploadsClientPath: String
+        },
         photos: [{
             type: Schema.ObjectId,
             ref: "Photo"
