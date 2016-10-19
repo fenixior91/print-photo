@@ -91,21 +91,21 @@ module.exports = function(passport) {
 };
 
 function makeDirectories(user) {
-    let userDir = user.local.uploads.uploadsSystemPath;
+    var userDir = user.local.uploads.uploadsSystemPath;
     if (!fs.existsSync(userDir))
         fs.mkdirSync(userDir);
 
-    let filesDir = user.local.uploads.filesSystemPath;
+    var filesDir = user.local.uploads.filesSystemPath;
     if (!fs.existsSync(filesDir)) {
         fs.mkdirSync(filesDir);
     }
 
-    let photosDir = user.local.uploads.photosSystemPath;
+    var photosDir = user.local.uploads.photosSystemPath;
     if (!fs.existsSync(photosDir)) {
         fs.mkdirSync(photosDir);
     }
 
-    let thumbnailsDir = user.local.uploads.thumbnailsSystemPath;
+    var thumbnailsDir = user.local.uploads.thumbnailsSystemPath;
     if (!fs.existsSync(thumbnailsDir)) {
         fs.mkdirSync(thumbnailsDir);
     }

@@ -17,7 +17,7 @@ RoutesUtils.prototype.isUserLoggedIn = function(req, res, pageToRender, pageToRe
     }
 };
 
-RoutesUtils.prototype.isUserIsNotLoggedIn = function(req, res, pageToRender, pageToRedirect, message = "") {
+RoutesUtils.prototype.isUserIsNotLoggedIn = function(req, res, pageToRender, pageToRedirect, message) {
     if (!req.user) {
         res.render(pageToRender, {
             message: req.flash(message)

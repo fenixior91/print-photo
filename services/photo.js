@@ -6,7 +6,7 @@ var Photo = require("../models/photo");
 var fs = require("fs");
 var imageMagick = require("imagemagick");
 
-var PhotoService = () => {
+var PhotoService = function() {
 }
 
 PhotoService.uploadPhoto = function(req, res) {
@@ -59,7 +59,7 @@ PhotoService.createThumbnailPhoto = function(req, res) {
 
 PhotoService.savePhoto = function(req, res) {
     return new Promise(function(resolve, reject) {
-        let photo = new Photo({
+        var photo = new Photo({
             _creator: req.user._id,
             title: req.fileName,
             caption: "Default caption of " + req.fileName,
@@ -78,11 +78,11 @@ PhotoService.savePhoto = function(req, res) {
     });
 };
 
-PhotoService.findByUserId = (id) => {
-    return new Promise((resolve, reject) => {
-        Photo.find( { _creator: id}, (error, photos) => {
+PhotoService.findByUserId = function(id) {
+    return new Promise(function(resolve, reject) {
+        Photo.find( { _creator: id}, function(error, photos) {
             if (!error) {
-                Photo.populate(photos, { path: "_creator" }, (error, photos) => {
+                Photo.populate(photos, { path: "_creator" }, function(error, photos) {
                     if (!error) {
                         resolve(photos);
                     } else {

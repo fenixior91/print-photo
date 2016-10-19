@@ -32,7 +32,7 @@ var photosRouter = require("./routes/photos")(passport);
 configServer();
 configRoutes();
 
-app.listen(app.get("port"), () => {
+app.listen(app.get("port"), function() {
     console.log("Application listen on port " + app.get("port"));
 });
 
