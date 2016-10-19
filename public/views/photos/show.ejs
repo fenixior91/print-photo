@@ -23,28 +23,33 @@
                         </div>
 
                         <div class="clearfix"></div>
-                        <div id="links">
 
-                            <% for (var i = 0; i < photos.length; i++) { %>
-                            <a href="<%= photos[i].src %>" title="<%= photos[i].title %>" alt="<%= photos[i].alt %>">
-                                <img src="<%= photos[i].src %>" alt="<%= photos[i].title %>" alt="<%= photos[i].title %>">
-                            </a>
-                            <% } %>
+                        <hr/>
 
+                        <% if (photos.length > 0) { %>
+                            <div id="links">
+                                <% for (var i = 0; i < photos.length; i++) { %>
+                                    <a href="<%= photos[i].photoSrc %>" title="<%= photos[i].title %>" alt="<%= photos[i].alt %>">
+                                        <img src="<%= photos[i].thumbnailSrc %>" alt="<%= photos[i].title %>">
+                                    </a>
+                                <% } %>
+                            </div>
+                            <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+                                <div class="slides"></div>
+                                <h3 class="title"></h3>
+                                <a class="prev">‹</a>
+                                <a class="next">›</a>
+                                <a class="close">×</a>
+                                <a class="play-pause"></a>
+                                <ol class="indicator"></ol>
+                            </div>
+                        <% } else {%>
+                        <div class="jumbotron text-center">
+                            <h1>There are no photos!</h1>
                         </div>
-
-                        <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
-                            <div class="slides"></div>
-                            <h3 class="title"></h3>
-                            <a class="prev">‹</a>
-                            <a class="next">›</a>
-                            <a class="close">×</a>
-                            <a class="play-pause"></a>
-                            <ol class="indicator"></ol>
-                        </div>
+                        <% } %>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
 

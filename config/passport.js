@@ -43,16 +43,22 @@ module.exports = (passport) => {
 
                         let atSign = email.replace(/\./g, "_").replace(/@/, "_at_");
                         let date = new Date().getTime();
+                        let userDir = atSign + "_" + date;
+                        let rootDir = process.env.PWD
 
-                        newUser.local.uploads.uploadsSystemPath = process.env.PWD + "/public/uploads/" + atSign + "_" + date;
-                        newUser.local.uploads.uploadsClientPath =  "/uploads/" + atSign + "_" + date;
+                        newUser.local.uploads.uploadsSystemPath = rootDir + "/public/uploads/" + userDir;
+                        newUser.local.uploads.uploadsClientPath =  "/uploads/" + userDir;
+                        newUser.local.uploads.filesSystemPath = newUser.local.uploads.uploadsSystemPath + "/files";
+                        newUser.local.uploads.filesClientPath = "/uploads/" + userDir + "/files";
+                        newUser.local.uploads.photosSystemPath = newUser.local.uploads.uploadsSystemPath + "/photos";
+                        newUser.local.uploads.photosClientPath = "/uploads/" + userDir + "/photos";
+                        newUser.local.uploads.thumbnailsSystemPath = newUser.local.uploads.uploadsSystemPath + "/thumbnails";
+                        newUser.local.uploads.thumbnailsClientPath = "uploads/" + userDir + "/thumbnails";
 
                         newUser.save((err, newUser) =>
                         {
                             if (!err) {
-                                let dir = newUser.local.uploads.uploadsSystemPath;
-                                if (!fs.existsSync(dir))
-                                    fs.mkdirSync(dir);
+                                makeDirectories(newUser);
 
                                 return done(null, newUser);
                             }
@@ -82,3 +88,24 @@ module.exports = (passport) => {
             });
     }));
 };
+
+function makeDirectories(user) {
+    let userDir = user.local.uploads.uploadsSystemPath;
+    if (!fs.existsSync(userDir))
+        fs.mkdirSync(userDir);
+
+    let filesDir = user.local.uploads.filesSystemPath;
+    if (!fs.existsSync(filesDir)) {
+        fs.mkdirSync(filesDir);
+    }
+
+    let photosDir = user.local.uploads.photosSystemPath;
+    if (!fs.existsSync(photosDir)) {
+        fs.mkdirSync(photosDir);
+    }
+
+    let thumbnailsDir = user.local.uploads.thumbnailsSystemPath;
+    if (!fs.existsSync(thumbnailsDir)) {
+        fs.mkdirSync(thumbnailsDir);
+    };
+}

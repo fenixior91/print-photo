@@ -12,7 +12,8 @@ const PhotoSchema = Schema({
     title: String,
     alt: String,
     caption: String,
-    src: String
+    thumbnailSrc: String,
+    photoSrc: String
 });
 
 

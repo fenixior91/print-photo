@@ -3,38 +3,57 @@
  */
 
 const Photo = require("../models/photo");
-const UserService = require("../services/user");
 const fs = require("fs");
+const imageMagick = require("imagemagick");
 
 let PhotoService = () => {
 }
 
-PhotoService.findByUserId = (id) => {
-    return new Promise((resolve, reject) => {
-        findByCreator(id)
-            .then(populateByCreator)
-            .then(function(photos) {
-                if (photos)
-                    resolve(photos);
-            })
-            .catch(function(error) {
-                reject(error);
-            });
+PhotoService.uploadPhoto = (req, res) => {
+    return new Promise(function(resolve, reject) {
+        let user = req.user;
+
+        req.pipe(req.busboy);
+        req.busboy.on("file", function(fieldName, file, fileName) {
+            let filePath = user.local.uploads.photosSystemPath + "/" + fileName;
+            let fStream = fs.createWriteStream(filePath);
+
+            if (fStream) {
+                file.pipe(fStream);
+
+                fStream.on("close", function(error) {
+                    if (!error) {
+                        req.fileName = fileName;
+                        resolve(req, res)
+                    } else {
+                        reject("Cannot upload photo!");
+                    }
+                });
+            } else {
+                reject("Cannot upload photo!");
+            }
+        });
     });
 };
 
-PhotoService.uploadPhoto = (req, res, user) => {
+PhotoService.createThumbnailPhoto = function(req, res) {
     return new Promise(function(resolve, reject) {
-        req.pipe(req.busboy);
+        let src = req.user.local.uploads.photosSystemPath + "/" + req.fileName;
+        let dst = req.user.local.uploads.thumbnailsSystemPath + "/thumbnail_" + req.fileName;
 
-        busyBoyOnFile(req, user)
-            .then(fileStreamOnClose)
-            .then(function(resovled) {
+        imageMagick.resize({
+            srcPath : src,
+            dstPath: dst,
+            strip : false,
+            width : "150!",
+            height : "150!"
+        }, function(error) {
+            if(!error) {
                 resolve(req, res);
-            })
-            .catch(function(error) {
+            } else {
                 reject(error);
-            });
+            }
+        });
     });
 };
 
@@ -43,89 +62,38 @@ PhotoService.savePhoto = function(req, res) {
         let photo = new Photo({
             _creator: req.user._id,
             title: req.fileName,
-            caption: "Caption of " + req.fileName,
-            src: req.user.local.uploads.uploadsClientPath + "/" + req.fileName,
-            alt: req.fileName
+            caption: "Default caption of " + req.fileName,
+            alt: req.fileName,
+            thumbnailSrc: req.user.local.uploads.thumbnailsClientPath + "/thumbnail_" + req.fileName,
+            photoSrc: req.user.local.uploads.photosClientPath + "/" + req.fileName,
         });
 
-        save(photo).then(
-                function (photo) {
-                    resolve(photo);
-            })
-            .catch(
-                function (error) {
-                    reject(error);
-                }
-            );
+        photo.save(function(error, photo) {
+            if (!error) {
+                resolve(req, res);
+            } else {
+                reject("Cannot save photo!");
+            }
+        });
     });
-
-
 };
 
-function save(photo) {
-    return new Promise(function(resolve, reject) {
-         photo.save(function(error, photo) {
-             if (!error) {
-                 resolve(photo);
-             } else {
-                 reject(error);
-             }
-         });
-    });
-}
-
-function busyBoyOnFile(req, user) {
-    return new Promise(function(resolve, reject) {
-        req.busboy.on("file", function(fieldName, file, fileName) {
-            req.fileName = fileName;
-
-            let filePath = user.local.uploads.uploadsSystemPath + "/" + fileName;
-            let fStream = fs.createWriteStream(filePath);
-
-            if (fStream) {
-                file.pipe(fStream);
-                resolve(fStream);
-            } else {
-                reject("No file stream");
-            }
-        });
-    });
-}
-
-function fileStreamOnClose(fStream) {
-    return new Promise(function(resolve, reject) {
-        fStream.on("close", function(error) {
+PhotoService.findByUserId = (id) => {
+    return new Promise((resolve, reject) => {
+        Photo.find( { _creator: id}, (error, photos) => {
             if (!error) {
-                resolve(fStream)
+                Photo.populate(photos, { path: "_creator" }, (error, photos) => {
+                    if (!error) {
+                        resolve(photos);
+                    } else {
+                        resolve(error);
+                    }
+                });
             } else {
-                reject(error);
-            }
-        })
-    });
-}
-
-function findByCreator(id) {
-    return new Promise((resolve, reject) => {
-        Photo.find( { _creator: id}, (err, photos) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(photos);
+                resolve(error);
             }
         });
     });
-}
-
-function populateByCreator(photos) {
-    return new Promise((resolve, reject) => {
-        Photo.populate(photos, { path: "_creator" }, (err, photos) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(photos);
-            }
-        });
-    });
-}
+};
 
 module.exports = PhotoService;

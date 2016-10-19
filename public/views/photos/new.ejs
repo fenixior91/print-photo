@@ -3,6 +3,7 @@
     <head>
         <% include ../partials/head.ejs %>
         <link href="/css/vendor/dropzone/dropzone.css" rel="stylesheet">
+        <link href="/css/styles/style.css" rel="stylesheet">
         
         <title>Photos | New</title>
     </head>
@@ -22,18 +23,11 @@
                         </div>
 
                         <div class="clearfix"></div>
+                        <hr/>
 
                         <div class="row">
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="x_panel">
-                                    <div class="x_content">
-                                        <form action="/photos/new" class="dropzone"></form>
-                                        <br />
-                                        <br />
-                                        <br />
-                                        <br />
-                                    </div>
-                                </div>
+                                <form id="photoDropzone" action="/photos/new" class="dropzone" enctype="multipart/form-data"></form>
                             </div>
                         </div>
                     </div>
@@ -42,6 +36,7 @@
         </div>
 
         <% include ../partials/scripts.ejs %>
-        <script src="/js/vendor/dropzone/dropzone.min.js"></script>
+        <script src="/js/vendor/dropzone/dropzone.js"></script>
+        <script src="/js/scripts/ui/photos/new_ui.js"></script>
     </body>
 </html>

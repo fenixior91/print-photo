@@ -43,18 +43,16 @@ module.exports = (passport) => {
         let user = req.user;
 
         if (user) {
-            PhotoService.uploadPhoto(req, res, user)
+            PhotoService.uploadPhoto(req, res)
+                .then(PhotoService.createThumbnailPhoto)
                 .then(PhotoService.savePhoto)
                 .then(
-                    function(resolve) {
-                        res.status(200).json({status: "ok", message: "file uploaded"});
-                    }
-                )
-                .catch(function(error) {
-                    res.json({
-                        error: error
+                    function(photo) {
+                        res.status(200).json({
+                            status: "ok",
+                            message: "file uploaded"
+                        })
                     });
-                });
         } else {
             res.redirect("/login");
         }
@@ -64,7 +62,7 @@ module.exports = (passport) => {
         let user = req.user
 
         if (user) {
-            res.status(200).render("photos/edit.ejs", {
+            res.status(200).render("photos/editt.ejs", {
                 user: user
             });
         } else {

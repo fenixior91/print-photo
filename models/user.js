@@ -20,7 +20,13 @@ const UserSchema = Schema({
         avatar: String,
         uploads: {
             uploadsSystemPath: String,
-            uploadsClientPath: String
+            uploadsClientPath: String,
+            filesSystemPath: String,
+            filesClientPath: String,
+            photosSystemPath: String,
+            photosClientPath: String,
+            thumbnailsSystemPath: String,
+            thumbnailsClientPath: String
         },
         photos: [{
             type: Schema.ObjectId,
