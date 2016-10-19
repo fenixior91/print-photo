@@ -1,3 +1,5 @@
 node_modules/
-public/uploads/
+public/uploads/files/
+public/uploads/photos/
+public/uploads/thumbnails
 .idea
