@@ -2,7 +2,6 @@
  * Created by developer on 18.10.16.
  */
 
-var mkdirp = require("mkdirp");
 var User = require("../models/photo");
 
 var UserService = function() {
