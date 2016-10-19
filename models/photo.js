@@ -1,10 +1,10 @@
 /**
  * Created by developer on 17.10.16.
  */
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+var mongoose = require("mongoose");
+var Schema = mongoose.Schema;
 
-const PhotoSchema = Schema({
+var PhotoSchema = Schema({
     _creator: {
         type: Schema.ObjectId,
         ref: "User"
@@ -17,6 +17,6 @@ const PhotoSchema = Schema({
 });
 
 
-const Photo = mongoose.model('Photo', PhotoSchema);
+var Photo = mongoose.model('Photo', PhotoSchema);
 
 module.exports = Photo;

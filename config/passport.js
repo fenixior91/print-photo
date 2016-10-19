@@ -1,17 +1,17 @@
-const LocalStrategy = require('passport-local').Strategy;
-const fs = require("fs");
-const path = require("path");
+var LocalStrategy = require('passport-local').Strategy;
+var fs = require("fs");
+var path = require("path");
 
-const User = require('../models/user');
-const UserService = require("../services/user");
+var User = require('../models/user');
+var UserService = require("../services/user");
 
-module.exports = (passport) => {
-    passport.serializeUser((user, done) => {
+module.exports = function(passport) {
+    passport.serializeUser(function(user, done) {
         done(null, user.id);
     });
 
-    passport.deserializeUser((id, done) => {
-        User.findById(id, (err, user) => {
+    passport.deserializeUser(function(id, done) {
+        User.findById(id, function(err, user) {
             done(err, user);
         });
     });
@@ -21,9 +21,10 @@ module.exports = (passport) => {
             passwordField : 'password',
             passReqToCallback : true
 
-    }, (req, email, password, done) => {
-            process.nextTick(() => {
-                User.findOne({ 'local.email' :  email }, (err, user) => {
+    },
+    function(req, email, password, done) {
+            process.nextTick(function() {
+                User.findOne({ 'local.email' :  email }, function(err, user) {
                     if (err)
                         return done(err);
 
@@ -41,10 +42,10 @@ module.exports = (passport) => {
                         newUser.local.role = 1;
                         newUser.local.avatar = "/images/common/user.png";
 
-                        let atSign = email.replace(/\./g, "_").replace(/@/, "_at_");
-                        let date = new Date().getTime();
-                        let userDir = atSign + "_" + date;
-                        let rootDir = process.env.PWD
+                        var atSign = email.replace(/\./g, "_").replace(/@/, "_at_");
+                        var date = new Date().getTime();
+                        var userDir = atSign + "_" + date;
+                        var rootDir = process.env.PWD
 
                         newUser.local.uploads.uploadsSystemPath = rootDir + "/public/uploads/" + userDir;
                         newUser.local.uploads.uploadsClientPath =  "/uploads/" + userDir;
@@ -55,7 +56,7 @@ module.exports = (passport) => {
                         newUser.local.uploads.thumbnailsSystemPath = newUser.local.uploads.uploadsSystemPath + "/thumbnails";
                         newUser.local.uploads.thumbnailsClientPath = "uploads/" + userDir + "/thumbnails";
 
-                        newUser.save((err, newUser) =>
+                        newUser.save(function(err, newUser)
                         {
                             if (!err) {
                                 makeDirectories(newUser);
@@ -73,8 +74,8 @@ module.exports = (passport) => {
             usernameField : 'email',
             passwordField : 'password',
             passReqToCallback : true
-    }, (req, email, password, done) => {
-        User.findOne({ 'local.email' :  email }, (err, user) => {
+    }, function(req, email, password, done) {
+        User.findOne({ 'local.email' :  email }, function(err, user) {
             if (err)
                 return done(err);
 
@@ -107,5 +108,5 @@ function makeDirectories(user) {
     let thumbnailsDir = user.local.uploads.thumbnailsSystemPath;
     if (!fs.existsSync(thumbnailsDir)) {
         fs.mkdirSync(thumbnailsDir);
-    };
+    }
 }

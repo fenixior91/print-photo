@@ -2,18 +2,17 @@
  * Created by developer on 17.10.16.
  */
 
-const express = require("express");
-const api = express.Router();
+var express = require("express");
+var api = express.Router();
 
-module.exports = (passport) => {
-    api.get("/", isLoggedIn, (req, res) => {
+module.exports = function(passport) {
+    api.get("/", isLoggedIn, function(req, res) {
         res.render("profile.ejs", {
             user: req.user
         });
     });
 
     function isLoggedIn(req, res, next) {
-        console.log(req.path);
         if (req.isAuthenticated()) {
             return next();
         }

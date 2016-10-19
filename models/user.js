@@ -2,11 +2,11 @@
  * Created by developer on 17.10.16.
  */
 
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt-nodejs");
-const Schema = mongoose.Schema;
+var mongoose = require("mongoose");
+var bcrypt = require("bcrypt-nodejs");
+var Schema = mongoose.Schema;
 
-const UserSchema = Schema({
+var UserSchema = Schema({
     local : {
         _id: Number,
         email: String,

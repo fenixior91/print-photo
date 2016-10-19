@@ -2,19 +2,19 @@
  * Created by developer on 16.10.16.
  */
 
-const express = require("express");
-const fs = require("fs");
-const api = express.Router();
-const PhotoService = require("../services/photo");
+var express = require("express");
+var fs = require("fs");
+var api = express.Router();
+var PhotoService = require("../services/photo");
 
 
-module.exports = (passport) => {
+module.exports = function(passport) {
     api.get("/", function (req, res) {
-        let user = req.user
+        var user = req.user
 
         if (user) {
             PhotoService.findByUserId(user.id).then(
-                (photos) => {
+                function(photos) {
                     res.status(200).render("photos/show.ejs", {
                         photos: photos,
                         user: user
@@ -26,8 +26,8 @@ module.exports = (passport) => {
         }
     });
 
-    api.get("/new", (req, res) => {
-        let user = req.user
+    api.get("/new", function(req, res) {
+        var user = req.user
 
         if (user) {
             res.status(200).render("photos/new.ejs", {
@@ -40,7 +40,7 @@ module.exports = (passport) => {
     });
 
     api.post("/new", function(req, res) {
-        let user = req.user;
+        var user = req.user;
 
         if (user) {
             PhotoService.uploadPhoto(req, res)
@@ -58,8 +58,8 @@ module.exports = (passport) => {
         }
     });
 
-    api.get("/edit", (req, res) => {
-        let user = req.user
+    api.get("/edit", function(req, res) {
+        var user = req.user
 
         if (user) {
             res.status(200).render("photos/editt.ejs", {

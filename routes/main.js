@@ -2,16 +2,16 @@
  * Created by developer on 17.10.16.
  */
 
-const express = require("express");
-const api = express.Router();
+var express = require("express");
+var api = express.Router();
 var routesUtils = require("./routesUtils");
 
-module.exports = (passport) => {
-    api.get("/", (req, res) => {
+module.exports = function(passport) {
+    api.get("/", function(req, res) {
         routesUtils.isUserLoggedIn(req, res, "index.ejs", "/login");
     });
 
-    api.get("/login", (req, res) => {
+    api.get("/login", function(req, res) {
         routesUtils.isUserIsNotLoggedIn(req, res, "login.ejs", "/", "loginMessage");
     });
 
@@ -21,7 +21,7 @@ module.exports = (passport) => {
         failureFlash: true
     }));
 
-    api.get("/signup", (req, res) => {
+    api.get("/signup", function(req, res) {
         res.render("signup.ejs", {
             message: req.flash("signupMessage")
         });
@@ -33,7 +33,7 @@ module.exports = (passport) => {
         failureFlash: true
     }));
 
-    api.get("/logout", (req, res) => {
+    api.get("/logout", function(req, res) {
         req.logout();
         res.redirect("/login");
     });

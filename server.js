@@ -2,21 +2,21 @@
  * Created by developer on 16.10.16.
  */
 
-const express = require("express");
-const app = express();
+var express = require("express");
+var app = express();
 
-const flash = require("connect-flash");
-const morgan = require("morgan");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const session = require("express-session");
-const configDB = require("./config/database");
-const busboy = require("connect-busboy")
+var flash = require("connect-flash");
+var morgan = require("morgan");
+var cookieParser = require("cookie-parser");
+var bodyParser = require("body-parser");
+var session = require("express-session");
+var configDB = require("./config/database");
+var busboy = require("connect-busboy")
 
-const mongoose = require("mongoose");
+var mongoose = require("mongoose");
 mongoose.connect(configDB.url);
 
-const passport = require("passport");
+var passport = require("passport");
 require("./config/passport")(passport);
 
 app.set("port", process.env.PORT || 3000);
@@ -25,9 +25,9 @@ app.set("view engine", "ejs");
 
 app.use(express.static(__dirname + "/public"));
 
-const mainRouter = require("./routes/main")(passport);
-const profileRouter = require("./routes/profile")(passport);
-const photosRouter = require("./routes/photos")(passport);
+var mainRouter = require("./routes/main")(passport);
+var profileRouter = require("./routes/profile")(passport);
+var photosRouter = require("./routes/photos")(passport);
 
 configServer();
 configRoutes();

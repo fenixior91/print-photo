@@ -2,21 +2,21 @@
  * Created by developer on 18.10.16.
  */
 
-const Photo = require("../models/photo");
-const fs = require("fs");
-const imageMagick = require("imagemagick");
+var Photo = require("../models/photo");
+var fs = require("fs");
+var imageMagick = require("imagemagick");
 
-let PhotoService = () => {
+var PhotoService = () => {
 }
 
-PhotoService.uploadPhoto = (req, res) => {
+PhotoService.uploadPhoto = function(req, res) {
     return new Promise(function(resolve, reject) {
-        let user = req.user;
+        var user = req.user;
 
         req.pipe(req.busboy);
         req.busboy.on("file", function(fieldName, file, fileName) {
-            let filePath = user.local.uploads.photosSystemPath + "/" + fileName;
-            let fStream = fs.createWriteStream(filePath);
+            var filePath = user.local.uploads.photosSystemPath + "/" + fileName;
+            var fStream = fs.createWriteStream(filePath);
 
             if (fStream) {
                 file.pipe(fStream);
@@ -38,8 +38,8 @@ PhotoService.uploadPhoto = (req, res) => {
 
 PhotoService.createThumbnailPhoto = function(req, res) {
     return new Promise(function(resolve, reject) {
-        let src = req.user.local.uploads.photosSystemPath + "/" + req.fileName;
-        let dst = req.user.local.uploads.thumbnailsSystemPath + "/thumbnail_" + req.fileName;
+        var src = req.user.local.uploads.photosSystemPath + "/" + req.fileName;
+        var dst = req.user.local.uploads.thumbnailsSystemPath + "/thumbnail_" + req.fileName;
 
         imageMagick.resize({
             srcPath : src,
