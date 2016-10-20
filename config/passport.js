@@ -54,7 +54,7 @@ module.exports = function(passport) {
                         newUser.local.uploads.photosSystemPath = newUser.local.uploads.uploadsSystemPath + "/photos";
                         newUser.local.uploads.photosClientPath = "/uploads/" + userDir + "/photos";
                         newUser.local.uploads.thumbnailsSystemPath = newUser.local.uploads.uploadsSystemPath + "/thumbnails";
-                        newUser.local.uploads.thumbnailsClientPath = "uploads/" + userDir + "/thumbnails";
+                        newUser.local.uploads.thumbnailsClientPath = "/uploads/" + userDir + "/thumbnails";
 
                         newUser.save(function(err, newUser)
                         {

@@ -12,8 +12,8 @@ var PhotoService = function() {
 PhotoService.uploadPhoto = function(req, res) {
     return new Promise(function(resolve, reject) {
         var user = req.user;
-
         req.pipe(req.busboy);
+
         req.busboy.on("file", function(fieldName, file, fileName) {
             var filePath = user.local.uploads.photosSystemPath + "/" + fileName;
             var fStream = fs.createWriteStream(filePath);
@@ -34,6 +34,18 @@ PhotoService.uploadPhoto = function(req, res) {
             }
         });
     });
+
+    function busyBoyOnFile() {
+        return new Promise(function(resolve, reject) {
+
+        });
+    }
+
+    function fileStreamOnClose() {
+        return new Promise(function(resolve, reject) {
+
+        });
+    }
 };
 
 PhotoService.createThumbnailPhoto = function(req, res) {
