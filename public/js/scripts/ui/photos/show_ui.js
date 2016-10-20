@@ -5,47 +5,16 @@
 $(document).ready(function () {
     var photos = [];
     var template;
-    var links = $("#links");
 
-    ShowUi.appendTemplate(photos, template, links);
+    $(".btn-delete").click(function(e) {
+        e.preventDefault();
+
+    });
 });
 
 var ShowUi = function() {
 
 };
-
-ShowUi.appendTemplate = function(photos, template, links) {
-    ShowUi.loadPhotos()
-        .then(ShowUi.loadTemplate)
-        .then(function(data) {
-            photos = data.data.data;
-            template = $(data.template);
-
-            for (var i = 0; i < photos.length; i++) {
-                var photo = photos[i];
-
-                var tmpTemplate = template.clone();
-
-                var photoLink = tmpTemplate.find("#photo-link");
-                var photoSrc = tmpTemplate.find("#photo-src");
-
-                photoLink.attr("id", "photo-link-" + i);
-                photoLink.attr("href", photo.photoSrc);
-                photoLink.attr("title", photo.title);
-                photoLink.attr("alt", photo.alt);
-
-                photoSrc.attr("id", "photo-src-" + i);
-                photoSrc.attr("src", photo.thumbnailSrc);
-                photoSrc.attr("alt", photo.alt);
-
-                links.append(tmpTemplate);
-            }
-
-        })
-        .catch(function(error) {
-            console.log(error);
-        });
-}
 
 ShowUi.loadPhotos = function() {
     return new Promise(function(resolve, reject) {
@@ -81,3 +50,38 @@ ShowUi.loadTemplate = function(data) {
         });
     });
 };
+
+ShowUi.appendTemplate = function(data) {
+    return new Promise(function(resolve, reject) {
+        var photos = data.data.data;
+        var template = $(data.template);
+        var gallery = $("#gallery");
+        var photolinks = $(".photo-links");
+
+        for (var i = 0; i < photos.length; i++) {
+            var photo = photos[i];
+
+            var tmpTemplate = template.clone();
+
+            var photoLink = tmpTemplate.find("#photo-link");
+            var photoSrc = tmpTemplate.find("#photo-src");
+
+            photoLink.attr("id", "photo-link-" + i);
+            photoLink.attr("href", photo.photoSrc);
+            photoLink.attr("title", photo.title);
+            photoLink.attr("alt", photo.alt);
+
+            photoSrc.attr("id", "photo-src-" + i);
+            photoSrc.attr("src", photo.thumbnailSrc);
+            photoSrc.attr("alt", photo.alt);
+
+            gallery.append(tmpTemplate);
+        }
+
+        resolve(gallery);
+    });
+}
+
+ShowUi.activateGallery = function (gallery) {
+
+}
