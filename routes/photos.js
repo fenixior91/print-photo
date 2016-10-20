@@ -11,16 +11,32 @@ module.exports = function(passport) {
         var user = req.user
 
         if (user) {
-            PhotoService.findByUserId(user.id).then(
-                function(photos) {
-                    res.status(200).render("photos/show", {
-                        photos: photos,
-                        user: user
-                    });
-                }
-            )
+            res.render("photos/show", {
+                user: user
+            });
         } else {
             res.redirect("/login");
+        }
+    });
+
+    api.get("/images", function(req, res) {
+        var user = req.user;
+
+        if (user) {
+            PhotoService.findByUserId(user.id)
+                .then(function(photos) {
+                    res.status(200).json({
+                        data: photos
+                    });
+                })
+                .catch(function(error) {
+                    res.json({
+                        error: error
+                    });
+                });
+
+        } else {
+            res.redirect("/logout");
         }
     });
 

@@ -26,39 +26,17 @@
 
                         <hr/>
 
-                        <% if (photos.length > 0) { %>
-                            <div id="links">
-                                <% for (var i = 0; i < photos.length; i++) { %>
-                                    <div style="display: inline-block; margin-top: 5px; padding: 0;">
-                                        <a style="margin-top: 5px; display: block; border: solid 1px #73879c" href="<%= photos[i].photoSrc %>" title="<%= photos[i].title %>" alt="<%= photos[i].alt %>">
-                                            <img src="<%= photos[i].thumbnailSrc %>" alt="<%= photos[i].title %>">
-                                        </a>
+                        <div id="links"></div>
 
-                                        <div style="margin-top: 5px;" class="btn-group">
-                                            <button type="button" title="Edit" href class="btn btn-primary btn-xs"><span class="fa fa-edit"></span></button>
-                                            <button type="button" title="Delete" href class="btn btn-danger btn-xs"><span class="fa fa-remove"></span></button>
-                                        </div>
-                                        <div style="margin: 0; display: inline-block;" class="checkbox pull-right">
-                                            <label><input title="Select Photo" type="checkbox" value=""></label>
-                                        </div>
-                                    </div>
-                                <% } %>
-                            </div>
-
-                            <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
-                                <div class="slides"></div>
-                                <h3 class="title"></h3>
-                                <a class="prev">‹</a>
-                                <a class="next">›</a>
-                                <a class="close">×</a>
-                                <a class="play-pause"></a>
-                                <ol class="indicator"></ol>
-                            </div>
-                        <% } else {%>
-                            <div class="jumbotron text-center">
-                                <h1>There are no photos!</h1>
-                            </div>
-                        <% } %>
+                        <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+                            <div class="slides"></div>
+                            <h3 class="title"></h3>
+                            <a class="prev">‹</a>
+                            <a class="next">›</a>
+                            <a class="close">×</a>
+                            <a class="play-pause"></a>
+                            <ol class="indicator"></ol>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -79,5 +57,6 @@
                 blueimp.Gallery(links, options);
             };
         </script>
+        <script src="/js/scripts/ui/photos/show_ui.js"></script>
     </body>
 </html>
