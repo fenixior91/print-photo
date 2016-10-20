@@ -10,11 +10,11 @@ var morgan = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var session = require("express-session");
-var configDB = require("./config/database");
-var busboy = require("connect-busboy")
+var configDB = require("./config/database")(app.get("env"));
+var busboy = require("connect-busboy");
 
 var mongoose = require("mongoose");
-mongoose.connect(configDB.url);
+mongoose.connect(configDB);
 
 var passport = require("passport");
 require("./config/passport")(passport);

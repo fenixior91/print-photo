@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
     <head>
-        <% include ../partials/head.ejs%>
+        <% include ../partials/head.ejs %>
 
         <title>Photos | Edit</title>
     </head>
@@ -22,18 +22,17 @@
 
                         <div class="clearfix"></div>
 
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="x_panel">
-                                    <div class="x_title">
+                        <hr/>
 
-                                    </div>
-                                    <div class="x_content">
-
-                                    </div>
-                                </div>
+                        <% if (photos.length > 0) { %>
+                            <% for (var i = 0; i < photos.length; i++) { %>
+                                <img src="<%= photos[i].thumbnailSrc %>" alt="<%= photos[i].title %>">
+                            <% } %>
+                        <% } else {%>
+                            <div class="jumbotron text-center">
+                                <h1>There are no photos!</h1>
                             </div>
-                        </div>
+                        <% } %>
                     </div>
                 </div>
             </div>

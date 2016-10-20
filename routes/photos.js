@@ -62,19 +62,17 @@ module.exports = function(passport) {
         var user = req.user
 
         if (user) {
-            res.status(200).render("photos/editt.ejs", {
-                user: user
-            });
+            PhotoService.findByUserId(user.id).then(
+                function(photos) {
+                    res.status(200).render("photos/editt", {
+                        photos: photos,
+                        user: user
+                    });
+                }
+            )
         } else {
             res.redirect("/login");
         }
-    });
-
-
-
-    api.post("/photo/add", function(req, res) {
-        console.log("", req.user);
-
     });
 
     return api;
