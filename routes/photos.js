@@ -47,5 +47,29 @@ module.exports = function(passport) {
         }
     });
 
+    api.post("/remove", function(req, res) {
+        var user = req.user;
+
+        if (user) {
+            PhotoService.removeById(req)
+                .then(PhotoService.removeUploadedPhoto)
+                .then(PhotoService.removeGeneratedThumbnail)
+                .then(function(result) {
+                    res.json({
+                        status: "ok",
+                        message: result
+                    });
+                })
+                .catch(function(error) {
+                    res.json({
+                        status: "error",
+                        error: error
+                    });
+                });
+        } else {
+            res.redirect("/login");
+        }
+    });
+
     return api;
 };

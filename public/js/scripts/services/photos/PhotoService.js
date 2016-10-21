@@ -11,4 +11,10 @@ angular.module("app")
 
         return HttpService.doGet(url);
     }
+
+    this.deletePhoto = function(params) {
+        var url = this.serviceUrl + sep + "remove";
+
+        return HttpService.doPost(url, params);
+    }
 });

@@ -4,10 +4,10 @@
 
 angular.module("app")
 .service("HttpService", function($q, $http) {
-    this.doPost = function(url, data) {
+    this.doPost = function(url, params) {
         var deferred = $q.defer();
 
-        $http.post(url, data)
+        $http.post(url, params)
             .success(function(data) {
                 deferred.resolve(data);
             })

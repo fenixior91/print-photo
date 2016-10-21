@@ -38,6 +38,9 @@ angular.module("app")
             controllerAs: "vm",
             size: "xs",
             backdrop: "static"
+        })
+        .result.then(function(result) {
+            PhotoService.deletePhoto(scope.photo);
         });
     };
 });

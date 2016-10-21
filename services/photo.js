@@ -4,6 +4,7 @@
 
 var Photo = require("../models/photo");
 var fs = require("fs");
+var path = require("path");
 var imageMagick = require("imagemagick");
 
 var PhotoService = function() {
@@ -107,5 +108,51 @@ PhotoService.findByUserId = function(id) {
         });
     });
 };
+
+PhotoService.removeById = function(req) {
+    return new Promise(function(resolve, reject) {
+        var id = req.body._id;
+
+        Photo.remove({ _id: id }, function(error) {
+            if (!error) {
+                resolve(req);
+            } else {
+                reject(error);
+            }
+        });
+    });
+};
+
+PhotoService.removeUploadedPhoto = function(req) {
+    return new Promise(function(resolve, reject) {
+        var sep = path.sep;
+        var photoName = req.body.title;
+        var photoSrc = req.user.local.uploads.photosSystemPath + sep + photoName;
+
+        fs.unlink(photoSrc, function(error) {
+            if (!error) {
+                resolve(req);
+            } else {
+                reject(error);
+            }
+        });
+    });
+};
+
+PhotoService.removeGeneratedThumbnail = function(req) {
+    return new Promise(function(resolve, reject) {
+        var sep = path.sep;
+        var photoName = req.body.title;
+        var thumbnailSrc = req.user.local.uploads.thumbnailsSystemPath + sep + "thumbnail_" + photoName;
+
+        fs.unlink(thumbnailSrc, function(error) {
+            if (!error) {
+                resolve("Photo removed!");
+            } else {
+                reject(error);
+            }
+        });
+    });
+}
 
 module.exports = PhotoService;
