@@ -3,12 +3,24 @@
  */
 
 var express = require("express");
+var path = require("path");
 var api = express.Router();
 var routesUtils = require("./routesUtils");
 
 module.exports = function(passport) {
     api.get("/", function(req, res) {
-        routesUtils.isUserLoggedIn(req, res, "index.ejs", "/login");
+        var user = req.user;
+
+        if (user) {
+            res.status(200).render("main", {
+                user: user,
+                rootUrl: process.env.PWD,
+                pathSeparator: path.sep
+            });
+
+        } else {
+            res.redirect("/login");
+        }
     });
 
     api.get("/login", function(req, res) {

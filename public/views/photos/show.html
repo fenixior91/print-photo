@@ -1,0 +1,35 @@
+<div class="">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>Photos | Edit</h3>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <hr/>
+
+    <div ng-show="vm.loading == false && vm.photos.length > 0" id="photos" gallery>
+        <div id="links">
+            <div style="display: inline-block" ng-repeat="photo in vm.photos">
+                <a href="{{photo.photoSrc}}" title="{{photo.title}}" alt="{{photo.alt}}">
+                    <img style="margin: 5px;" ng-src="{{photo.thumbnailSrc}}" alt="{{photo.alt}}">
+                </a>
+            </div>
+
+        </div>
+        <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+            <div class="slides"></div>
+            <h3 class="title"></h3>
+            <a class="prev">‹</a>
+            <a class="next">›</a>
+            <a class="close">×</a>
+            <a class="play-pause"></a>
+            <ol class="indicator"></ol>
+        </div>
+    </div>
+
+    <div ng-show="vm.loading == false && vm.photos.length == 0"class="jumbotron text-center">
+        <h1>There are no photos!</h1>
+    </div>
+</div>

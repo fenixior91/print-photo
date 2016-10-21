@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl" ng-app="app">
+    <head>
+        <% include partials/head.ejs %>
+        <title>Print Photo</title>
+    </head>
+
+    <body class="nav-md">
+        <div class="container body">
+            <div class="main_container">
+                <% include partials/left-menu.ejs %>
+                <% include partials/top-menu.ejs %>
+
+                <div ui-view class="right_col" role="main"></div>
+            </div>
+        </div>
+
+        <% include partials/scripts.ejs %>
+        <script>
+            var rootUrl = <%- JSON.stringify(rootUrl) %>
+            angular.module("app").constant("rootUrl", rootUrl);
+
+            var pathSeparator = <%- JSON.stringify(pathSeparator) %>
+            angular.module("app").constant("sep", pathSeparator);
+        </script>
+    </body>
+</html>

@@ -7,50 +7,6 @@ var api = express.Router();
 var PhotoService = require("../services/photo");
 
 module.exports = function(passport) {
-    api.get("/", function (req, res) {
-        var user = req.user
-
-        if (user) {
-            PhotoService.findByUserId(user.id)
-                .then(function(photos) {
-                    res.render("photos/show", {
-                        photos: photos,
-                        user: user
-                    });
-                })
-                .catch(function(error) {
-                    res.json({
-                        error: error
-                    });
-                });
-
-        } else {
-            res.redirect("/logout");
-        }
-    });
-
-    api.get("/edit", function (req, res) {
-        var user = req.user
-
-        if (user) {
-            PhotoService.findByUserId(user.id)
-                .then(function(photos) {
-                    res.render("photos/editt", {
-                        photos: photos,
-                        user: user
-                    });
-                })
-                .catch(function(error) {
-                    res.json({
-                        error: error
-                    });
-                });
-
-        } else {
-            res.redirect("/logout");
-        }
-    });
-
     api.get("/images", function(req, res) {
         var user = req.user;
 
@@ -58,7 +14,7 @@ module.exports = function(passport) {
             PhotoService.findByUserId(user.id)
                 .then(function(photos) {
                     res.status(200).json({
-                        data: photos
+                        photos: photos
                     });
                 })
                 .catch(function(error) {
@@ -69,19 +25,6 @@ module.exports = function(passport) {
 
         } else {
             res.redirect("/logout");
-        }
-    });
-
-    api.get("/new", function(req, res) {
-        var user = req.user
-
-        if (user) {
-            res.status(200).render("photos/new", {
-                user: user
-            });
-
-        } else {
-            res.redirect("/login");
         }
     });
 
