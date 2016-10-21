@@ -5,5 +5,7 @@
 
 angular.module("app", [
     "ui.router",
-    "ui.bootstrap"
+    "ui.bootstrap",
+    "ui-notification",
+    "thatisuday.dropzone"
 ]);
