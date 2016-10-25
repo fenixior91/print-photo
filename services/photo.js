@@ -16,7 +16,7 @@ PhotoService.uploadPhoto = function(req, res) {
         req.pipe(req.busboy);
 
         req.busboy.on("file", function(fieldName, file, fileName) {
-            var filePath = user.local.uploads.photosSystemPath + "/" + fileName;
+            var filePath = user.local.uploads.photosSystemPath + path.sep + fileName;
             var fStream = fs.createWriteStream(filePath);
 
             if (fStream) {
@@ -51,8 +51,8 @@ PhotoService.uploadPhoto = function(req, res) {
 
 PhotoService.createThumbnailPhoto = function(req, res) {
     return new Promise(function(resolve, reject) {
-        var src = req.user.local.uploads.photosSystemPath + "/" + req.fileName;
-        var dst = req.user.local.uploads.thumbnailsSystemPath + "/thumbnail_" + req.fileName;
+        var src = req.user.local.uploads.photosSystemPath + path.sep + req.fileName;
+        var dst = req.user.local.uploads.thumbnailsSystemPath + path.sep + "thumbnail_" + req.fileName;
 
         imageMagick.resize({
             srcPath : src,
@@ -72,23 +72,43 @@ PhotoService.createThumbnailPhoto = function(req, res) {
 
 PhotoService.savePhoto = function(req, res) {
     return new Promise(function(resolve, reject) {
+        var fileName = removeFileExtension(req.fileName);
+
         var photo = new Photo({
             _creator: req.user._id,
-            title: req.fileName,
-            caption: "Default caption of " + req.fileName,
-            alt: req.fileName,
-            thumbnailSrc: req.user.local.uploads.thumbnailsClientPath + "/thumbnail_" + req.fileName,
-            photoSrc: req.user.local.uploads.photosClientPath + "/" + req.fileName,
+            title: fileName,
+            caption: "Default caption of " + fileName,
+            alt: fileName,
+            thumbnailSrc: req.user.local.uploads.thumbnailsClientPath + path.sep + "thumbnail_" + req.fileName,
+            photoSrc: req.user.local.uploads.photosClientPath + path.sep + req.fileName
         });
 
-        photo.save(function(error, photo) {
-            if (!error) {
-                resolve(req, res);
-            } else {
-                reject("Cannot save photo!");
-            }
-        });
+        save(photo)
+            .then(function(result) {
+                resolve(res);
+            })
+            .catch(function(error) {
+                reject(error);
+            });
     });
+
+    function removeFileExtension(fileName) {
+        var endString = fileName.indexOf(".");
+
+        return req.fileName.substr(0, endString);
+    }
+
+    function save(photo) {
+        return new Promise(function(resolve, reject) {
+            photo.save(function(error, photo) {
+                if (!error) {
+                    resolve(photo);
+                } else {
+                    reject(error);
+                }
+            });
+        });
+    }
 };
 
 PhotoService.findByUserId = function(id) {
