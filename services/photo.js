@@ -24,6 +24,7 @@ PhotoService.uploadPhoto = function(req, res) {
 
                 fStream.on("close", function(error) {
                     if (!error) {
+                        req.extension = fileName.substring(fileName.lastIndexOf("."), fileName.length);
                         req.fileName = fileName;
                         resolve(req, res)
                     } else {
@@ -80,7 +81,8 @@ PhotoService.savePhoto = function(req, res) {
             caption: "Default caption of " + fileName,
             alt: fileName,
             thumbnailSrc: req.user.local.uploads.thumbnailsClientPath + path.sep + "thumbnail_" + req.fileName,
-            photoSrc: req.user.local.uploads.photosClientPath + path.sep + req.fileName
+            photoSrc: req.user.local.uploads.photosClientPath + path.sep + req.fileName,
+            extension: req.extension
         });
 
         save(photo)
@@ -174,28 +176,78 @@ PhotoService.removeGeneratedThumbnail = function(req) {
     });
 };
 
-PhotoService.editPhoto = function(req) {
-    return new Promise(function(resolve, reject) {
-        var id = req.body._id;
-
-        Photo.findById(id)
-            .then(function(photo) {
-                Photo.update(photo, req.body)
-                    .then(function (result) {
-                        if (result) {
-                            resolve(photo);
-                        } else {
-                            reject("Can not update photo " + photo.title);
-                        }
-                    })
-                    .catch(function(error) {
-                        reject(error);
-                    });
-            })
-            .catch(function(error) {
-                reject(error);
+PhotoService.editPhoto = function(req, res) {
+    Photo.findById(req.body._id)
+        .then(renamePhoto)
+        .then(renameThumbnail)
+        .then(edit)
+        .then(function(photo) {
+            res.status(200).json({
+                status: "ok",
+                data: photo
             });
-    });
+        })
+        .catch(function (error) {
+            res.status(200).json({
+                status: "error",
+                error: error
+            });
+        });
+
+    function renamePhoto(photo) {
+        return new Promise(function(resolve, reject) {
+            var oldFileName = photo.title;
+            var newFileName = req.body.title;
+            var ext = photo.extension;
+
+            var oldPath = req.user.local.uploads.photosSystemPath + path.sep + oldFileName + ext;
+            var newPath = req.user.local.uploads.photosSystemPath + path.sep + newFileName + ext;
+
+            fs.rename(oldPath, newPath, function(error) {
+                if (!error) {
+                    resolve(photo);
+                } else {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    function renameThumbnail(photo) {
+        return new Promise(function(resolve, reject) {
+            var thumbnail = "thumbnail_";
+            var oldFileName = thumbnail + photo.title;
+            var newFileName = thumbnail + req.body.title;
+            var ext = photo.extension;
+
+            var oldPath = req.user.local.uploads.thumbnailsSystemPath + path.sep + oldFileName + ext;
+            var newPath = req.user.local.uploads.thumbnailsSystemPath + path.sep + newFileName + ext;
+
+            fs.rename(oldPath, newPath, function(error) {
+                if (!error) {
+                    resolve(photo);
+                } else {
+                    reject(error);
+                }
+            });
+        });
+    }
+
+    function edit(photo) {
+        return new Promise(function(resolve, reject) {
+            photo.title = req.body.title || "";
+            photo.alt = req.body.alt || "";
+            photo.caption = req.body.caption || "";
+
+            photo.save(function(error, updatedPhoto) {
+                if (!error) {
+                    resolve(updatedPhoto);
+                } else {
+                    reject(error);
+                }
+            });
+        });
+    }
 };
 
 module.exports = PhotoService;

@@ -76,19 +76,7 @@ module.exports = function(passport) {
         var user = req.user;
 
         if (user) {
-            PhotoService.editPhoto(req)
-                .then(function (photo) {
-                    res.json({
-                        status: "ok",
-                        data: photo
-                    });
-                })
-                .catch(function(error) {
-                    res.json({
-                        status: "error",
-                        error: error
-                    });
-                });
+            PhotoService.editPhoto(req, res);
         } else {
             res.redirect("/login");
         }

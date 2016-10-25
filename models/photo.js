@@ -13,7 +13,8 @@ var PhotoSchema = Schema({
     alt: String,
     caption: String,
     thumbnailSrc: String,
-    photoSrc: String
+    photoSrc: String,
+    extension: String
 });
 
 var Photo = mongoose.model('Photo', PhotoSchema);
@@ -23,22 +24,6 @@ Photo.findById = function(id) {
         Photo.findOne({ _id: id }, function(error, photo) {
             if (!error) {
                 resolve(photo);
-            } else {
-                reject(error);
-            }
-        });
-    });
-};
-
-Photo.update = function (photo, params) {
-    return new Promise(function(resolve, reject) {
-        photo.title = params.title;
-        photo.alt = params.alt;
-        photo.caption = params.caption;
-
-        photo.save(function(error, updatedPhoto) {
-            if (!error) {
-                resolve(updatedPhoto);
             } else {
                 reject(error);
             }
