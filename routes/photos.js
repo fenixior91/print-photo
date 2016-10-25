@@ -14,6 +14,7 @@ module.exports = function(passport) {
             PhotoService.findByUserId(user.id)
                 .then(function(photos) {
                     res.status(200).json({
+                        status: "ok",
                         photos: photos
                     });
                 })
@@ -40,7 +41,7 @@ module.exports = function(passport) {
                         res.status(200).json({
                             status: "ok",
                             message: "file uploaded"
-                        })
+                        });
                     });
         } else {
             res.redirect("/login");
@@ -66,6 +67,38 @@ module.exports = function(passport) {
                         error: error
                     });
                 });
+        } else {
+            res.redirect("/login");
+        }
+    });
+
+    api.post("/edit", function(req, res) {
+        var user = req.user;
+
+        if (user) {
+            PhotoService.editPhoto(req)
+                .then(function (photo) {
+                    res.json({
+                        status: "ok",
+                        data: photo
+                    });
+                })
+                .catch(function(error) {
+                    res.json({
+                        status: "error",
+                        error: error
+                    });
+                });
+        } else {
+            res.redirect("/login");
+        }
+    });
+
+    api.post("/edit/all", function(req, res) {
+        var user = req.user;
+
+        if (user) {
+
         } else {
             res.redirect("/login");
         }

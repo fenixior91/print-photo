@@ -161,9 +161,8 @@ PhotoService.removeUploadedPhoto = function(req) {
 
 PhotoService.removeGeneratedThumbnail = function(req) {
     return new Promise(function(resolve, reject) {
-        var sep = path.sep;
         var photoName = req.body.title;
-        var thumbnailSrc = req.user.local.uploads.thumbnailsSystemPath + sep + "thumbnail_" + photoName;
+        var thumbnailSrc = req.user.local.uploads.thumbnailsSystemPath + path.sep + "thumbnail_" + photoName;
 
         fs.unlink(thumbnailSrc, function(error) {
             if (!error) {
@@ -173,6 +172,30 @@ PhotoService.removeGeneratedThumbnail = function(req) {
             }
         });
     });
-}
+};
+
+PhotoService.editPhoto = function(req) {
+    return new Promise(function(resolve, reject) {
+        var id = req.body._id;
+
+        Photo.findById(id)
+            .then(function(photo) {
+                Photo.update(photo, req.body)
+                    .then(function (result) {
+                        if (result) {
+                            resolve(photo);
+                        } else {
+                            reject("Can not update photo " + photo.title);
+                        }
+                    })
+                    .catch(function(error) {
+                        reject(error);
+                    });
+            })
+            .catch(function(error) {
+                reject(error);
+            });
+    });
+};
 
 module.exports = PhotoService;

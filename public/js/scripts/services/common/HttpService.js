@@ -9,7 +9,10 @@ angular.module("app")
 
         $http.post(url, params)
             .success(function(data) {
-                deferred.resolve(data);
+                if (data.status === "ok")
+                    deferred.resolve(data);
+                else
+                    deferred.reject(data);
             })
             .error(function(error) {
                 deferred.reject(error);
@@ -23,7 +26,10 @@ angular.module("app")
 
         $http.get(url)
             .success(function(data) {
-                deferred.resolve(data);
+                if (data.status === "ok")
+                    deferred.resolve(data);
+                else
+                    deferred.reject(data);
             })
             .error(function(error) {
                 deferred.reject(error);

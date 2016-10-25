@@ -17,4 +17,10 @@ angular.module("app")
 
         return HttpService.doPost(url, params);
     }
+
+    this.editPhoto = function(params) {
+        var url = this.serviceUrl + sep + "edit";
+
+        return HttpService.doPost(url, params);
+    }
 });
