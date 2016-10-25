@@ -28,6 +28,9 @@ angular.module("app")
             size: "lg",
             backdrop: "static"
         })
+        .result.then(function(result) {
+
+        });
     };
 
     vm.openDeleteModal = function (scope) {
