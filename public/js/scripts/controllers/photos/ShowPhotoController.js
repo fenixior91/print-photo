@@ -10,7 +10,7 @@ angular.module("app")
 
         PhotoService.getPhotos()
             .then(function (data) {
-                vm.photos = data.photos;
+                vm.photos = data.data;
                 vm.loading = false;
             }, function(error) {
 

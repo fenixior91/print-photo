@@ -31,4 +31,30 @@ Photo.findById = function(id) {
     });
 };
 
+Photo.findAllByCreator = function(id) {
+    return new Promise(function(resolve, reject) {
+        Photo.find({ _creator: id }, photosFound);
+
+        function photosFound(error, photos) {
+            if (!error) {
+                resolve(photos);
+            } else {
+                reject(false);
+            }
+        }
+    });
+};
+
+Photo.removeById = function(id) {
+    return new Promise(function (resolve, reject) {
+        Photo.remove({ _id: id}, function(error) {
+            if (!error) {
+                resolve(true);
+            } else {
+                reject(false);
+            }
+        });
+    });
+};
+
 module.exports = Photo;

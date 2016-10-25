@@ -11,19 +11,7 @@ module.exports = function(passport) {
         var user = req.user;
 
         if (user) {
-            PhotoService.findByUserId(user.id)
-                .then(function(photos) {
-                    res.status(200).json({
-                        status: "ok",
-                        photos: photos
-                    });
-                })
-                .catch(function(error) {
-                    res.json({
-                        error: error
-                    });
-                });
-
+            PhotoService.getImages(req, res);
         } else {
             res.redirect("/logout");
         }
@@ -33,16 +21,7 @@ module.exports = function(passport) {
         var user = req.user;
 
         if (user) {
-            PhotoService.uploadPhoto(req, res)
-                .then(PhotoService.createThumbnailPhoto)
-                .then(PhotoService.savePhoto)
-                .then(
-                    function(photo) {
-                        res.status(200).json({
-                            status: "ok",
-                            message: "file uploaded"
-                        });
-                    });
+            PhotoService.createPhoto(req, res);
         } else {
             res.redirect("/login");
         }
@@ -52,21 +31,7 @@ module.exports = function(passport) {
         var user = req.user;
 
         if (user) {
-            PhotoService.removeById(req)
-                .then(PhotoService.removeUploadedPhoto)
-                .then(PhotoService.removeGeneratedThumbnail)
-                .then(function(result) {
-                    res.json({
-                        status: "ok",
-                        message: result
-                    });
-                })
-                .catch(function(error) {
-                    res.json({
-                        status: "error",
-                        error: error
-                    });
-                });
+            PhotoService.removePhoto(req, res);
         } else {
             res.redirect("/login");
         }
