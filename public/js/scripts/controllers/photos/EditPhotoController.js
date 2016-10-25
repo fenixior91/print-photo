@@ -34,11 +34,11 @@ angular.module("app")
             PhotoService.editPhoto(photo)
                 .then(function(result) {
                     var message = "Edition of " + photo.title + " finished.";
-                    Notification.primary({message: message, positionX: 'center'});
+                    Notification.primary({message: message, positionX: 'center', delay: 1500});
                 })
                 .catch(function(error) {
                     var message = "Can not edit " + photo.title + ": " + error;
-                    Notification.error({message: message, positionX: 'center'});
+                    Notification.error({message: message, positionX: 'center', delay: 1500});
                 });
         });
     };
@@ -61,11 +61,11 @@ angular.module("app")
                     vm.photos.splice(index, 1);
 
                     var message = "Photo " + photo.title + " has removed.";
-                    Notification.primary({message: message, positionX: 'center'});
+                    Notification.primary({message: message, positionX: 'center', delay: 1500});
                 })
                 .catch(function(error) {
                     var message = "Can not remove " + photo.title + ".";
-                    Notification.error({message: message, positionX: 'center'});
+                    Notification.error({message: message, positionX: 'center', delay: 1500});
                 });
         });
     };
