@@ -17,7 +17,7 @@ angular.module("app")
         })
         .state("show-photo", {
             url: "/photos/show",
-            templateUrl: "/views/photos/show.html",
+            templateUrl: "/views/photos/albums.html",
             controllerAs: "vm",
             controller: "ShowPhotoController"
         })
@@ -26,11 +26,17 @@ angular.module("app")
             templateUrl: "/views/photos/new.html",
             controllerAs: "vm",
             controller: "NewPhotoController",
-        }).
-        state("edit-photo", {
+        })
+        .state("edit-photo", {
             url: "/photos/edit",
             templateUrl: "/views/photos/edit.html",
             controllerAs: "vm",
             controller: "EditPhotoController"
+        })
+        .state("albums", {
+            url: "/albums",
+            templateUrl: "/views/albums/albums.html",
+            controllerAs: "vm",
+            controller: ""
         });
 });

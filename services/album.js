@@ -24,7 +24,7 @@ AlbumService.createAlbum = function(req, res) {
                 error: error
             });
         });
-    
+
     function save() {
         return new Promise(function(resolve, reject) {
             var album = new Album({
