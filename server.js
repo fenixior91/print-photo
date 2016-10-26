@@ -28,6 +28,7 @@ app.use(express.static(__dirname + "/public"));
 var mainRouter = require("./routes/main")(passport);
 var profileRouter = require("./routes/profile")(passport);
 var photosRouter = require("./routes/photos")(passport);
+var albumsRouter = require("./routes/albums")(passport);
 
 configServer();
 configRoutes();
@@ -51,4 +52,5 @@ function configRoutes() {
     app.use("/", mainRouter);
     app.use("/profile", profileRouter);
     app.use("/photos", photosRouter);
+    app.use("/albums", albumsRouter);
 }

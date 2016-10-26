@@ -5,9 +5,13 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var PhotoSchema = Schema({
-    _creator: {
+    _user: {
         type: Schema.ObjectId,
         ref: "User"
+    },
+    _album: {
+        type: Schema.ObjectId,
+        ref: "Album"
     },
     title: String,
     alt: String,
@@ -31,19 +35,32 @@ Photo.findById = function(id) {
     });
 };
 
-Photo.findAllByCreator = function(id) {
+Photo.findAllByUser = function(id) {
     return new Promise(function(resolve, reject) {
-        Photo.find({ _creator: id }, photosFound);
+        Photo.find({ _user: id }, photosFound);
 
         function photosFound(error, photos) {
             if (!error) {
                 resolve(photos);
             } else {
-                reject(false);
+                reject(error);
             }
         }
     });
 };
+
+Photo.findAllByAlbum = function(id) {
+    return new Promise(function(resolve, reject) {
+        Photo.find({ _album: id }, photosFound);
+
+        function photosFound(error, photos) {
+            if (!error)
+                resolve(photos);
+            else
+                reject(error);
+        }
+    });
+}
 
 Photo.removeById = function(id) {
     return new Promise(function (resolve, reject) {
@@ -51,7 +68,7 @@ Photo.removeById = function(id) {
             if (!error) {
                 resolve(true);
             } else {
-                reject(false);
+                reject(error);
             }
         });
     });

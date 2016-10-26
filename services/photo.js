@@ -12,7 +12,7 @@ var PhotoService = function() {
 }
 
 PhotoService.getImages = function(req, res) {
-    Photo.findAllByCreator(req.user._id)
+    Photo.findAllByUser(req.user._id)
         .then(populate)
         .then(function(result) {
             res.status(200).json({

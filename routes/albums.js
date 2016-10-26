@@ -7,11 +7,13 @@ var api = express.Router();
 var AlbumService = require("../services/album");
 
 module.exports = function(passport) {
-    api.get("/albums", function(req, res) {
+    api.get("/", function(req, res) {
         if (req.user) {
             AlbumService.getAlbums(req, res);
         } else {
             res.redirect("/login");
         }
     });
+
+    return api;
 };
