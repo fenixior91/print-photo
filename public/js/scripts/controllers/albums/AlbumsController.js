@@ -29,12 +29,11 @@ angular.module("app")
                 .then(function(result) {
                     AlbumService.createAlbum(result)
                         .then(function(result) {
-                            console.log(result);
+                            vm.albums.push(result.data);
                         })
                         .catch(function(error) {
 
                         });
-                    // vm.albums.push(result.data);
                 })
                 .catch(function(error) {
 
@@ -54,7 +53,11 @@ angular.module("app")
             })
             .result
                 .then(function(result) {
-
+                    AlbumService.removeAlbum(album)
+                        .then(function(result){
+                            var index = vm.albums.indexOf(album);
+                            vm.albums.splice(index, 1);
+                        });
                 })
                 .catch(function(error) {
 

@@ -19,4 +19,10 @@ angular.module("app")
 
             return HttpService.doPost(url, params);
         }
+
+        this.removeAlbum = function(params) {
+            var url = this.serviceUrl + "/remove";
+
+            return HttpService.doPost(url, params);
+        }
     });

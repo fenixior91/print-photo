@@ -115,4 +115,42 @@ AlbumService.showAlbum = function(req, res) {
     });
 };
 
+AlbumService.removeAlbum = function(req, res) {
+    Album.findById(req.body._id)
+        .then(remove)
+        .then(updatePhotos)
+        .then(function(result) {
+            res.status(200).json({
+                status: "ok",
+                data: result
+            });
+        })
+        .catch(function(error) {
+            res.status(200).json({
+                status: "error",
+                error: error
+            });
+        });
+
+    function remove(album) {
+        return new Promise(function(resolve, reject) {
+            album.remove(albumRemoved);
+
+            function albumRemoved(error) {
+                if (!error) {
+                    resolve(true);
+                } else {
+                    reject(error);
+                }
+            }
+        });
+    }
+
+    function updatePhotos(album) {
+        return new Promise(function(resolve, reject) {
+            resolve();
+        });
+    }
+};
+
 module.exports = AlbumService;

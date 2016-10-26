@@ -23,5 +23,13 @@ module.exports = function(passport) {
         }
     });
 
+    api.post("/remove", function(req, res) {
+        if (req.user) {
+            AlbumService.removeAlbum(req, res);
+        } else {
+            res.redirect("/login");
+        }
+    })
+
     return api;
 };
