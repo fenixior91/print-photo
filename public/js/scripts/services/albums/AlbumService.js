@@ -13,4 +13,10 @@ angular.module("app")
 
             return HttpService.doGet(url);
         };
+
+        this.createAlbum = function(params) {
+            var url = this.serviceUrl + sep + "create";
+
+            return HttpService.doPost(url, params);
+        }
     });

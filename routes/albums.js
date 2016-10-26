@@ -15,5 +15,13 @@ module.exports = function(passport) {
         }
     });
 
+    api.post("/create", function(req, res) {
+        if (req.user) {
+            AlbumService.createAlbum(req, res);
+        } else {
+            res.redirect("/login");
+        }
+    });
+
     return api;
 };

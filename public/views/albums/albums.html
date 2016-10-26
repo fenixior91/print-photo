@@ -3,11 +3,27 @@
         <div class="x_title">
             <ul class="nav navbar-right panel_toolbox">
                 <li>
-                    <button type="button" class="btn btn-primary"><i class="fa fa-plus"></i> New</button>
+                    <button ng-click="vm.newClick()" type="button" class="btn btn-success">New</button>
                 </li>
             </ul>
             <h3>Title</h3>
         </div>
-        <div class="x_content">CONTENT</div>
+        <div class="x_content">
+            <div ng-repeat="album in vm.albums">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <button ui-sref="edit-album" type="button" class="btn btn-primary">Edit</button>
+                            </li>
+                            <li>
+                                <button ng-click="vm.deleteClick(this)" type="button" class="btn btn-danger">Delete</button>
+                            </li>
+                        </ul>
+                        <h4>{{album.name}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -37,6 +37,6 @@ angular.module("app")
             url: "/albums",
             templateUrl: "/views/albums/albums.html",
             controllerAs: "vm",
-            controller: ""
+            controller: "AlbumsController"
         });
 });
