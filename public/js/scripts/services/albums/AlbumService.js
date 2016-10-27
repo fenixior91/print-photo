@@ -15,7 +15,7 @@ angular.module("app")
         };
 
         this.getAlbum = function(id) {
-            var url = this.serviceUrl + "/" + id;
+            var url = this.serviceUrl + "/album/" + id;
 
             return HttpService.doGet(url);
         }

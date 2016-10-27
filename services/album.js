@@ -81,6 +81,22 @@ AlbumService.getAlbums = function(req, res) {
     }
 };
 
+AlbumService.getAlbum = function(req, res) {
+    Album.findById(req.params.id)
+        .then(function(result) {
+            res.status(200).json({
+                status: "ok",
+                data: result
+            });
+        })
+        .catch(function(error) {
+            res.status(200).json({
+                status: "error",
+                error: error
+            });
+        });
+};
+
 AlbumService.showAlbum = function(req, res) {
     return new Promise(function (resolve, reject) {
         Photo.findAllByAlbum(req.body._id)
