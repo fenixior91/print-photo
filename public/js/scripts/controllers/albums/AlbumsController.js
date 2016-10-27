@@ -30,9 +30,12 @@ angular.module("app")
                     AlbumService.createAlbum(result)
                         .then(function(result) {
                             vm.albums.push(result.data);
+
+                            var message = "Album " + result.data.name + " created.";
+                            Notification.primary({message: message, positionX: 'center', delay: 1500});
                         })
                         .catch(function(error) {
-
+                            Notification.error({message: error, positionX: 'center', delay: 1500});
                         });
                 })
                 .catch(function(error) {
@@ -57,10 +60,16 @@ angular.module("app")
                         .then(function(result){
                             var index = vm.albums.indexOf(album);
                             vm.albums.splice(index, 1);
+
+                            var message = "Album " + album.name + " removed.";
+                            Notification.primary({message: message, positionX: 'center', delay: 1500});
+                        })
+                        .catch(function(error) {
+                            Notification.error({message: error, positionX: 'center', delay: 1500});
                         });
                 })
                 .catch(function(error) {
-
+                    Notification.error({message: error, positionX: 'center', delay: 1500});
                 });
         };
     });
