@@ -8,10 +8,12 @@ angular.module("app")
     .controller("AlbumsController", function($scope, $uibModal, Notification, AlbumService) {
         var vm = this;
         vm.albums = [];
+        vm.loading = true;
 
         AlbumService.getAlbums()
             .then(function(result) {
                 vm.albums = result.data;
+                vm.loading = false;
             })
             .catch(function(error) {
                 Notification.error({message: error, positionX: 'center', delay: 1500});
