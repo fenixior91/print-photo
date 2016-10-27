@@ -1,3 +1,7 @@
 form#photoDropzone {
     height:550px;
 }
+
+.active-button:hover {
+    cursor: pointer;
+}
