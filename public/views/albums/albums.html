@@ -14,7 +14,7 @@
                     <div class="x_title">
                         <ul class="nav navbar-right panel_toolbox">
                             <li>
-                                <button ui-sref="edit-album" type="button" class="btn btn-primary">Edit</button>
+                                <button ui-sref="edit-album({ id: album._id })" type="button" class="btn btn-primary">Edit</button>
                             </li>
                             <li>
                                 <button ng-click="vm.deleteClick(this)" type="button" class="btn btn-danger">Delete</button>

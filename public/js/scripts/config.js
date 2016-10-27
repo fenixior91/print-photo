@@ -38,5 +38,11 @@ angular.module("app")
             templateUrl: "/views/albums/albums.html",
             controllerAs: "vm",
             controller: "AlbumsController"
+        })
+        .state("edit-album", {
+            url: "/albums/edit/:id",
+            templateUrl: "/views/albums/edit.html",
+            controllerAs: "vm",
+            controller: "EditAlbumController"
         });
 });
