@@ -7,7 +7,7 @@ var api = express.Router();
 var PhotoService = require("../services/photo");
 
 module.exports = function(passport) {
-    api.get("/images", function(req, res) {
+    api.get("/", function(req, res) {
         var user = req.user;
 
         if (user) {

@@ -13,6 +13,21 @@ angular.module("app")
         vm.loading = true;
         vm.existingPhotosEnable = false;
 
+        vm.options = {
+            url : "/photos/new",
+            acceptedFiles : "image/jpeg, images/jpg, image/png"
+        };
+
+        vm.callbacks = {
+            sending: function(file, xhr, formData) {
+                formData.append("id", $stateParams.id);
+                formData.append("xxxx", $stateParams.id);
+
+                console.log(formData.get("id"));
+                console.log(formData.get("file"));
+            }
+        }
+
         AlbumService.getAlbum($stateParams.id)
             .then(function(result) {
                 vm.album = result.data;

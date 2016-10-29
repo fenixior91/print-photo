@@ -1,0 +1,11 @@
+<table ng-show="vm.photos.length > 0" class="table table-responsive">
+    <tr ng-repeat="photo in vm.photos">
+        <td>
+            <img ng-src="{{photo.thumbnailSrc}}" alt="{{photo.alt}}">
+        </td>
+    </tr>
+</table>
+
+<div ng-show="vm.photos.length == 0" class="jumbotron text-center">
+    <h1>There are no photos!</h1>
+</div>

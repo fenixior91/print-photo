@@ -15,23 +15,11 @@ angular.module("app")
             controllerAs: "vm",
             controller: "IndexController"
         })
-        .state("show-photo", {
-            url: "/photos/show",
-            templateUrl: "/views/photos/albums.html",
+        .state("photos", {
+            url: "/photos",
+            templateUrl: "/views/photos/photos.html",
             controllerAs: "vm",
-            controller: "ShowPhotoController"
-        })
-        .state("new-photo", {
-            url: "/photos/new",
-            templateUrl: "/views/photos/new.html",
-            controllerAs: "vm",
-            controller: "NewPhotoController",
-        })
-        .state("edit-photo", {
-            url: "/photos/edit",
-            templateUrl: "/views/photos/edit.html",
-            controllerAs: "vm",
-            controller: "EditPhotoController"
+            controller: "PhotosController"
         })
         .state("albums", {
             url: "/albums",
