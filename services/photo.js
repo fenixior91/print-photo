@@ -118,7 +118,8 @@ PhotoService.createPhoto = function(req, res) {
     function save() {
         return new Promise(function (resolve, reject) {
             var photo = new Photo({
-                _creator: req.user._id,
+                _user: req.user._id,
+                _album: null,
                 title: req.fileName,
                 caption: "Default caption of " + req.fileName,
                 alt: req.fileName,

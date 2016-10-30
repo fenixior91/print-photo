@@ -1,31 +1,52 @@
-<div class="">
-    <div class="page-title">
-        <div class="title_left">
-            <h3>Photos | Edit</h3>
+<div class="x_panel">
+    <div class="x_content">
+        <button type="button" class="btn btn-danger pull-right">Delete All</button>
+        <button type="button" class="btn btn-danger pull-right">Delete Selected</button>
+
+        <table ng-show="vm.loading == false && vm.photos.length > 0" class="table table-striped table-bordered">
+            <tr>
+                <th class="text-center">
+                    <label><input type="checkbox"></label>
+                </th>
+                <th class="text-center">Image</th>
+                <th class="text-center">Info</th>
+                <th class="text-center">Actions</th>
+            </tr>
+
+            <tr ng-repeat="photo in vm.photos">
+                <td class="text-center">
+                    <label><input type="checkbox"></label>
+                </td>
+                <td class="col-xs-1">
+                    <img ng-src="{{photo.thumbnailSrc}}" alt="{{photo.alt}}">
+                </td>
+                <td class="col-xs-9">
+                    <div class="col-xs-12 col-lg-4 form-group">
+                        <label class="control-label">Title</label>
+                        <span class="help-block">{{photo.title}}</span>
+                    </div>
+                    <div class="col-xs-12 col-lg-4 form-group">
+                        <label class="control-label">Caption</label>
+                        <span class="help-block">{{photo.caption}}</span>
+                    </div>
+                    <div class="col-xs-12 col-lg-4 form-group">
+                        <label class="control-label">Alt</label>
+                        <span class="help-block">{{photo.alt}}</span>
+                    </div>
+                </td>
+                <td class="col-xs-1 text-center">
+                    <button ng-click="vm.openEditModal(this)" type="button" class="btn btn-primary">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button ng-click="vm.openDeleteModal(this)" type="button" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+        <div ng-show="vm.loading == false && vm.photos.length == 0"class="jumbotron text-center">
+            <h1>There are no photos!</h1>
         </div>
-    </div>
-
-    <div class="clearfix"></div>
-
-    <hr/>
-
-    <div style="display: inline-block; margin: 0; padding: 0;" ng-repeat="photo in vm.photos">
-        <img title="{{photo.title}}" style="display: block; margin: 5px;" class="photo-src" ng-src="{{photo.thumbnailSrc}}" alt="{{photo.alt}}">
-
-        <div style="margin: 5px;" class="btn-group">
-            <button ng-click="vm.openEditModal(this)" type="button" title="Edit" href class="btn-edit btn btn-primary btn-xs">
-                <span class="fa fa-edit"></span>
-            </button>
-            <button ng-click="vm.openDeleteModal(this)" type="button" title="Delete" href class="btn-delete btn btn-danger btn-xs">
-                <span class="fa fa-remove"></span>
-            </button>
-        </div>
-        <div style="margin: 0; display: inline-block;" class="checkbox pull-right">
-            <label><input title="Select Photo" type="checkbox" value=""></label>
-        </div>
-    </div>
-
-    <div ng-show="vm.loading == false && vm.photos.length == 0" class="jumbotron text-center">
-        <h1>There are no photos!</h1>
     </div>
 </div>
