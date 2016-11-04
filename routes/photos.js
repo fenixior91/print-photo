@@ -37,6 +37,16 @@ module.exports = function(passport) {
         }
     });
 
+    api.post("/removeAll", function(req, res) {
+        var user = req.user;
+
+        if (user) {
+            console.log(req.body);
+        } else {
+            res.redirect("/login");
+        }
+    });
+
     api.post("/edit", function(req, res) {
         var user = req.user;
 

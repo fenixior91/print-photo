@@ -5,3 +5,7 @@ form#photoDropzone {
 .active-button:hover {
     cursor: pointer;
 }
+
+.error-message {
+    color: red;
+}

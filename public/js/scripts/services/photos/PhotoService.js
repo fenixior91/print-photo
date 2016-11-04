@@ -16,6 +16,12 @@ angular.module("app")
         var url = this.serviceUrl + "/remove";
 
         return HttpService.doPost(url, params);
+    };
+
+    this.removeAllPhotos = function(params) {
+        var url = this.serviceUrl + "/removeAll";
+
+        return HttpService.doPost(url, params);
     }
 
     this.editPhoto = function(params) {

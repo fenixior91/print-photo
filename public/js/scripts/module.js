@@ -9,3 +9,5 @@ angular.module("app", [
     "ui-notification",
     "thatisuday.dropzone"
 ]);
+
+angular.module("login", []);

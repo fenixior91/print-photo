@@ -1,42 +1,47 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="pl" ng-app="login">
     <head>
-        <meta charset="utf-8">
+        <% include partials/head.ejs %>
         <title>Login</title>
-        <link rel="stylesheet" href="css/vendor/bootstrap/bootstrap.css">
-        <link rel="stylesheet" href="css/vendor/font-awesome/font-awesome.css">
-        <style>
-            body { padding-top: 80px; }
-        </style>
     </head>
 
-    <body>
-        <div class="container">
-            <div class="col-sm-6 col-sm-offset-3">
-                <h1><span class="fa fa-sign-in"></span> Login</h1>
+    <body class="login">
+        <div class="login_wrapper">
+            <div class="animate form login_form">
+                <section class="login_content">
+                    <form name="login" method="post" action="/login" novalidate>
+                        <h1>Login</h1>
+                        <div>
+                            <span class="pull-left" ng-show="login.email.$error.required && login.email.$dirty">
+                                <label class="error-message">Email is required!</label>
+                            </span>
+                            <input type="text" class="form-control" name="email" ng-model="vm.email" placeholder="Email" required/>
+                        </div>
+                        <div>
+                            <span class="pull-left" ng-show="login.password.$error.required && login.password.$dirty">
+                                <label class="error-message">Password is required!</label>
+                            </span>
+                            <input type="password" class="form-control" name="password" ng-model="vm.password" placeholder="Password" required/>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-default" href="index.html">Log in</button>
+                        </div>
 
-                <% if (message.length > 0) { %>
-                    <div class="alert alert-danger"><%= message %></div>
-                <% } %>
+                        <div class="clearfix"></div>
 
-                <form action="/login" method="post">
-                    <div class="form-group">
-                        <label class="control-label">Email</label>
-                        <input type="text" class="form-control" name="email">
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Password</label>
-                        <input type="password" class="form-control" name="password">
-                    </div>
+                        <div class="separator">
+                            <p class="change_link">New to site?
+                                <a href="/signup" class="to_register"> Create Account </a>
+                            </p>
 
-                    <button type="submit" class="btn btn-warning btn-lg">Login</button>
-                </form>
-
-                <hr>
-
-                <p>Need an account? <a href="/signup">Signup</a></p>
-                <p>Or go <a href="/">home</a>.</p>
+                            <div class="clearfix"></div>
+                            <br />
+                        </div>
+                    </form>
+                </section>
             </div>
         </div>
+
+    <% include partials/scripts.ejs %>
     </body>
 </html>

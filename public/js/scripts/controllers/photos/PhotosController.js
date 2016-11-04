@@ -87,4 +87,23 @@ angular.module("app")
                     });
             });
         };
+
+        vm.deleteAll = function() {
+            $uibModal.open({
+                templateUrl: "/views/common/delete-modal.html",
+                controllerAs: "vm",
+                controller: "DeleteAllPhotosModalController",
+                size: "xs",
+                backdrop: "static"
+            })
+                .result.then(function(result) {
+                    PhotoService.removeAllPhotos(vm.photos)
+                        .then(function(result) {
+
+                        })
+                        .catch(function(error) {
+
+                        });
+                });
+        };
     });
