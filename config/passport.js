@@ -34,34 +34,36 @@ module.exports = function(passport) {
                         var newUser = new User();
                         newUser.local.email  = email;
                         newUser.local.password = newUser.generateHash(password);
-                        newUser.local.firstName = req.body.firstName;
-                        newUser.local.lastName = req.body.lastName;
-                        newUser.local.city = req.body.city;
-                        newUser.local.address = req.body.address;
-                        newUser.local.postalCode = req.body.postalCode;
+                        newUser.local.login = req.body.login;
                         newUser.local.role = 1;
-                        newUser.local.avatar = "/images/common/user.png";
+                        newUser.local.avatar = path.sep + "images" + path.sep + "common" + path.sep + "user.png";
 
                         var atSign = email.replace(/\./g, "_").replace(/@/, "_at_");
                         var date = new Date().getTime();
                         var userDir = atSign + "_" + date;
                         var rootDir = process.env.PWD
 
-                        newUser.local.uploads.uploadsSystemPath = rootDir + "/public/uploads/" + userDir;
-                        newUser.local.uploads.uploadsClientPath =  "/uploads/" + userDir;
-                        newUser.local.uploads.filesSystemPath = newUser.local.uploads.uploadsSystemPath + "/files";
-                        newUser.local.uploads.filesClientPath = "/uploads/" + userDir + "/files";
-                        newUser.local.uploads.photosSystemPath = newUser.local.uploads.uploadsSystemPath + "/photos";
-                        newUser.local.uploads.photosClientPath = "/uploads/" + userDir + "/photos";
-                        newUser.local.uploads.thumbnailsSystemPath = newUser.local.uploads.uploadsSystemPath + "/thumbnails";
-                        newUser.local.uploads.thumbnailsClientPath = "/uploads/" + userDir + "/thumbnails";
+                        newUser.local.uploads.uploadsSystemPath = rootDir + path.sep + "public" + path.sep + "uploads" + path.sep + userDir;
+                        newUser.local.uploads.uploadsClientPath =  path.sep + "uploads" + path.sep + userDir;
+                        newUser.local.uploads.filesSystemPath = newUser.local.uploads.uploadsSystemPath + path.sep + "files";
+                        newUser.local.uploads.filesClientPath = path.sep + "uploads" + path.sep + userDir + path.sep + "files";
+                        newUser.local.uploads.photosSystemPath = newUser.local.uploads.uploadsSystemPath + path.sep + "photos";
+                        newUser.local.uploads.photosClientPath = path.sep + "uploads" + path.sep + userDir + path.sep + "photos";
+                        newUser.local.uploads.thumbnailsSystemPath = newUser.local.uploads.uploadsSystemPath + path.sep + "thumbnails";
+                        newUser.local.uploads.thumbnailsClientPath = path.sep + "uploads" + path.sep + userDir + path.sep + "thumbnails";
 
                         newUser.save(function(err, newUser)
                         {
                             if (!err) {
-                                makeDirectories(newUser);
-
-                                return done(null, newUser);
+                                makeDirectories(newUser)
+                                    .then(function(result) {
+                                        console.log(result);
+                                        return done(null, newUser);
+                                    })
+                                    .catch(function(error) {
+                                        console.log(error);
+                                        return;
+                                    });
                             }
                         });
                     }
@@ -91,22 +93,92 @@ module.exports = function(passport) {
 };
 
 function makeDirectories(user) {
-    var userDir = user.local.uploads.uploadsSystemPath;
-    if (!fs.existsSync(userDir))
-        fs.mkdirSync(userDir);
+    return new Promise(function(resolve, reject) {
+        makeUploadsSystemPath()
+            .then(makeFilesSystemPath)
+            .then(makePhotosSystemPath)
+            .then(makeThumbnailsSystemPath)
+            .then(function(result) {
+                resolve(result);
+            })
+            .catch(function(error) {
+                reject(error);
+            });
 
-    var filesDir = user.local.uploads.filesSystemPath;
-    if (!fs.existsSync(filesDir)) {
-        fs.mkdirSync(filesDir);
-    }
+        function makeUploadsSystemPath() {
+            return new Promise(function(resolve, reject) {
+                var userDir = user.local.uploads.uploadsSystemPath;
 
-    var photosDir = user.local.uploads.photosSystemPath;
-    if (!fs.existsSync(photosDir)) {
-        fs.mkdirSync(photosDir);
-    }
+                fs.exists(userDir, function(error) {
+                    if (!error) {
+                        fs.mkdir(userDir, function(error) {
+                            if (!error)
+                                resolve("Uploads Directory created.");
+                            else
+                                reject(error);
+                        });
+                    }
+                    else
+                        reject(error);
+                })
+            });
+        }
 
-    var thumbnailsDir = user.local.uploads.thumbnailsSystemPath;
-    if (!fs.existsSync(thumbnailsDir)) {
-        fs.mkdirSync(thumbnailsDir);
-    }
+        function makeFilesSystemPath() {
+            return new Promise(function(resolve, reject) {
+                var filesDir = user.local.uploads.filesSystemPath;
+
+                fs.exists(filesDir, function(error) {
+                    if (!error)
+                        fs.mkdir(filesDir, function(error) {
+                            if (!error)
+                                resolve("Files Directory created.");
+                            else
+                                reject(error);
+                        });
+                    else
+                        reject(error);
+                });
+            });
+        }
+
+        function makePhotosSystemPath() {
+            return new Promise(function(resolve, reject) {
+                var photosDir = user.local.uploads.photosSystemPath;
+
+                fs.exists(photosDir, function(error) {
+                    if (!error) {
+                        fs.mkdir(photosDir, function(error) {
+                            if (!error)
+                                resolve("Photos Directory created.");
+                            else
+                                reject(error);
+                        });
+                    }
+
+                    else
+                        reject(error);
+                });
+            });
+        }
+
+        function makeThumbnailsSystemPath() {
+            return new Promise(function(resolve, reject) {
+                var thumbnailsDir = user.local.uploads.thumbnailsSystemPath;
+
+                fs.exists(thumbnailsDir, function(error) {
+                    if (!error) {
+                        fs.mkdir(thumbnailsDir, function(error) {
+                            if (!error)
+                                resolve("Thumbnails Directory created.");
+                            else
+                                reject(error);
+                        });
+                    }
+                    else
+                        reject(error);
+                });
+            });
+        }
+    });
 }

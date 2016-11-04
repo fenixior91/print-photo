@@ -15,6 +15,7 @@
 
                 <form name="signup" method="post" action="/signup" novalidate>
                     <h1>Sign Up</h1>
+
                     <div>
                         <span class="col-xs-12" ng-show="signup.email.$error.required && signup.email.$dirty">
                             <label class="error-message">Email is required!</label>
@@ -25,12 +26,21 @@
 
                         <input type="email" class="form-control" name="email" ng-model="vm.email" placeholder="Email" required/>
                     </div>
+
+                    <div>
+                        <span class="col-xs-12" ng-show="signup.login.$error.required && signup.login.$dirty">
+                            <label class="error-message">Login is required!</label>
+                        </span>
+                        <input type="text" class="form-control" name="login" ng-model="vm.login" placeholder="Login" required/>
+                    </div>
+
                     <div>
                         <span class="col-xs-12" ng-show="signup.password.$error.required && signup.password.$dirty">
                             <label class="error-message">Password is required!</label>
                         </span>
                         <input type="password" class="form-control" name="password" ng-model="vm.password" placeholder="Password" required/>
                     </div>
+
                     <div>
                         <button ng-disabled="signup.$invalid" type="submit" class="btn btn-default">Sign Up</button>
                     </div>

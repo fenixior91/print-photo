@@ -8,4 +8,5 @@ angular.module("signup")
 
         vm.email = null;
         vm.password = null;
+        vm.login = null;
     });

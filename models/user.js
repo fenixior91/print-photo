@@ -11,6 +11,7 @@ var UserSchema = Schema({
         _id: Number,
         email: String,
         password: String,
+        login: String,
         firstName: String,
         lastName: String,
         city: String,
