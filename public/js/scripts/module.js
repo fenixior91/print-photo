@@ -11,3 +11,5 @@ angular.module("app", [
 ]);
 
 angular.module("login", []);
+
+angular.module("signup", []);
